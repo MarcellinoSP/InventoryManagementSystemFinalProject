@@ -3,6 +3,7 @@ using System;
 using InventoryManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230710183757_AddAllConsumableItemModel")]
+    partial class AddAllConsumableItemModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -139,53 +142,6 @@ namespace InventoryManagementSystem.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.ConsumedItem", b =>
-                {
-                    b.Property<int>("ConsumedId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ConsumedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ItemConsumableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NoteConsumed")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PicturePath")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ConsumedId");
-
-                    b.HasIndex("ItemConsumableId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ConsumedItems");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.GoodReceipt", b =>
                 {
                     b.Property<int>("ReceiptId")
@@ -283,54 +239,6 @@ namespace InventoryManagementSystem.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.ItemConsumable", b =>
-                {
-                    b.Property<int>("IdItemConsumable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Availability")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("KodeItemConsumable")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PicturePath")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("IdItemConsumable");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("SubCategoryId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("ItemsConsumable");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.LostItem", b =>
                 {
                     b.Property<int>("LostId")
@@ -425,57 +333,6 @@ namespace InventoryManagementSystem.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.OrderItemConsumable", b =>
-                {
-                    b.Property<int>("OrderConsumableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ConsumableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ConsumeDateApproved")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ItemConsumableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NoteDonePickUp")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NoteWaitingPickUp")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("RequestId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("OrderConsumableId");
-
-                    b.HasIndex("ItemConsumableId");
-
-                    b.HasIndex("RequestId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("OrderItemsConsumable");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.RequestItem", b =>
                 {
                     b.Property<int>("RequestId")
@@ -518,50 +375,6 @@ namespace InventoryManagementSystem.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RequestItems");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Models.RequestItemConsumable", b =>
-                {
-                    b.Property<int>("RequestConsumableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ItemConsumableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("NoteActionRequest")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NoteRequest")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("OrderItemConsumableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("RequestConsumeDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("RequestConsumableId");
-
-                    b.HasIndex("ItemConsumableId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RequestItemsConsumable");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.SubCategory", b =>
@@ -881,31 +694,6 @@ namespace InventoryManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.ConsumedItem", b =>
-                {
-                    b.HasOne("InventoryManagementSystem.Models.ItemConsumable", "ItemConsumable")
-                        .WithMany()
-                        .HasForeignKey("ItemConsumableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.Models.OrderItemConsumable", "OrderItemConsumable")
-                        .WithOne("ConsumableItem")
-                        .HasForeignKey("InventoryManagementSystem.Models.ConsumedItem", "OrderId");
-
-                    b.HasOne("InventoryManagementSystem.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ItemConsumable");
-
-                    b.Navigation("OrderItemConsumable");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.GoodReceipt", b =>
                 {
                     b.HasOne("InventoryManagementSystem.Models.BorrowedItem", "BorrowedItem")
@@ -947,33 +735,6 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasOne("InventoryManagementSystem.Models.Supplier", "Supplier")
                         .WithMany("Items")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("SubCategory");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Models.ItemConsumable", b =>
-                {
-                    b.HasOne("InventoryManagementSystem.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.Models.SubCategory", "SubCategory")
-                        .WithMany()
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.Models.Supplier", "Supplier")
-                        .WithMany()
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1035,31 +796,6 @@ namespace InventoryManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.OrderItemConsumable", b =>
-                {
-                    b.HasOne("InventoryManagementSystem.Models.ItemConsumable", "ItemConsumable")
-                        .WithMany()
-                        .HasForeignKey("ItemConsumableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.Models.RequestItemConsumable", "RequestItemConsumable")
-                        .WithOne("OrderItemConsumable")
-                        .HasForeignKey("InventoryManagementSystem.Models.OrderItemConsumable", "RequestId");
-
-                    b.HasOne("InventoryManagementSystem.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ItemConsumable");
-
-                    b.Navigation("RequestItemConsumable");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.RequestItem", b =>
                 {
                     b.HasOne("InventoryManagementSystem.Models.Item", "Item")
@@ -1075,25 +811,6 @@ namespace InventoryManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Item");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Models.RequestItemConsumable", b =>
-                {
-                    b.HasOne("InventoryManagementSystem.Models.ItemConsumable", "ItemConsumable")
-                        .WithMany()
-                        .HasForeignKey("ItemConsumableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ItemConsumable");
 
                     b.Navigation("User");
                 });
@@ -1181,19 +898,9 @@ namespace InventoryManagementSystem.Migrations
                     b.Navigation("BorrowedItem");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.OrderItemConsumable", b =>
-                {
-                    b.Navigation("ConsumableItem");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.Models.RequestItem", b =>
                 {
                     b.Navigation("OrderItem");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Models.RequestItemConsumable", b =>
-                {
-                    b.Navigation("OrderItemConsumable");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.SubCategory", b =>

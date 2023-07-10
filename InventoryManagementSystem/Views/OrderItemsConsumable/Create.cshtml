@@ -1,0 +1,158 @@
+@model InventoryManagementSystem.Models.OrderItemConsumable
+
+@{
+    ViewData["Title"] = ViewBag.statusReqAction;
+
+
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title Request Approval</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Consume Requests</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @ViewBag.Title Request Approval
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <form asp-action="Create" enctype="multipart/form-data">
+     @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="card-style mb-30 row">
+
+            <div class="input-style-1 mb-2 col-4">
+                <label class="control-label">Name</label>
+                <input value="@Model.RequestItemConsumable?.ItemConsumable?.Name" class="form-control" readonly />
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.ItemConsumable.Name) *@
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label class="control-label">Item Code</label>
+                <input value="@Model.RequestItemConsumable?.ItemConsumable?.KodeItemConsumable" class="form-control" readonly />
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.ItemConsumable.KodeItemConsumable) *@
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label class="control-label">User Email</label>
+                <input value="@Model.RequestItemConsumable?.User?.Email" class="form-control" readonly />
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.User.Email) *@
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="RequestItemConsumable.RequestConsumeDate">Request Consume Date</label>
+                <input asp-for="RequestItemConsumable.RequestConsumeDate" placeholder="Request Consume Date" readonly />
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.RequestConsumeDate) *@
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label class="control-label">User Request Note</label>
+                <textarea class="form-control" readonly>@Model.RequestItemConsumable?.NoteRequest</textarea>
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.NoteRequest) *@
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label class="control-label">Quantity</label>
+                <textarea class="form-control" readonly>@Model.RequestItemConsumable?.Quantity</textarea>
+                 @* @Html.HiddenFor(m => m.RequestItemConsumable.Quantity) *@
+            </div>
+
+            <hr class="col-12 mt-2">
+
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="ItemConsumableId" class="control-label"></label>
+                <input asp-for="ItemConsumableId" class="form-control" readonly name="ItemConsumableId" />
+                <span asp-validation-for="ItemConsumableId" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" readonly />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="RequestId" class="control-label"></label>
+                <input asp-for="RequestId" class="form-control" readonly />
+                <span asp-validation-for="RequestId" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="CreateAt" class="control-label"></label>
+                <input asp-for="CreateAt" class="form-control" readonly />
+                <span asp-validation-for="CreateAt" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="ConsumeDateApproved" class="control-label">Approved Consume Date</label>
+                <input asp-for="ConsumeDateApproved" class="form-control" id="consumeDateInput"/>
+                <span asp-validation-for="ConsumeDateApproved" class="text-danger"></span>
+            </div>
+
+            @* <div class="input-style-1 mb-2 col-4">
+                <label asp-for="DueDateApproved" class="control-label">Approved Due Date</label>
+                <input asp-for="DueDateApproved" class="form-control" id="dueDateInput"/>
+                <span asp-validation-for="DueDateApproved" class="text-danger"></span>
+            </div> *@
+            <div class="input-style-1 mb-2 col-4">
+                <label>Note for Pick Up </label>
+                <textarea asp-for="NoteWaitingPickUp" class="form-control"></textarea>
+                <span asp-validation-for="NoteWaitingPickUp" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" name="requestConsumableId" value="@Model.RequestItemConsumable?.RequestConsumableId" />
+            <input type="hidden" name="status" value="Approved" />
+
+            <div class="col-12 mt-2 d-flex gap-4">
+                <a asp-controller="RequestItemsConsumable" asp-action="Index" type="button"
+                    class="main-btn danger-btn-outline rounde-sm btn-hover">Cancel</a>
+                <button type="submit" class="main-btn success-btn rounde-sm btn-hover">Approved</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@* @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+    document.getElementById('ConsumeDateInput').addEventListener('change', validateRequestDate);
+    document.getElementById('dueDateInput').addEventListener('change', validateDueDate);
+
+    function validateRequestDate() {
+        var requestDate = new Date(document.getElementById('consumeDateInput').value);
+        var dueDate = new Date(document.getElementById('dueDateInput').value);
+
+        if (requestDate >= dueDate) {
+            alert('Request date must be before the due date.');
+            document.getElementById('borrowDateInput').value = document.getElementById('borrowDateInput').defaultValue;
+        }
+    } 
+
+    function validateDueDate() {
+        var requestDate = new Date(document.getElementById('borrowDateInput').value);
+        var dueDate = new Date(document.getElementById('dueDateInput').value);
+
+        if (dueDate <= requestDate) {
+            alert('Request date must be before the due date.');
+            document.getElementById('dueDateInput').value = document.getElementById('dueDateInput').defaultValue;
+        }
+    }
+    </script>
+
+} *@

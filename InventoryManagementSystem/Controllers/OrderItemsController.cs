@@ -164,6 +164,17 @@ namespace InventoryManagementSystem.Controllers
                 _context.Update(requestItem);//update entitas reqitem ke database
                 await _context.SaveChangesAsync();//pasangan dg atasnya. update entitas reqitem ke database
 
+                var currentDate = DateTime.Now.Date;
+                var dueDate = orderItem.BorrowDateApproved.Date.AddDays(1);
+
+                if(currentDate > dueDate)
+                {
+                    orderItem.Status = OrderItemStatus.CancelledBySystem;
+                    _context.Update(orderItem);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem", orderItem.ItemId);

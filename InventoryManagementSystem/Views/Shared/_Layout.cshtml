@@ -54,39 +54,112 @@
           </li>
           @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
           {
-            <li class='nav-item nav-item-has-children @(route == "Items" || route == "Consumables"? "active" : "")'>
-              <a href="#0" class='@(route != "Items" || route == "Consumables"? "collapsed" : "")' data-bs-toggle="collapse"
+            <li class='nav-item nav-item-has-children @(route == "Items" || route == "ItemsConsumable"? "active" : "")'>
+              <a href="#0" class='@(route != "Items" || route == "ItemsConsumable"? "collapsed" : "")' data-bs-toggle="collapse"
                 data-bs-target="#ddmenu_item" aria-controls="ddmenu_item" aria-expanded='@(route == "Items")'
                 aria-label="Toggle navigation">
                 <i class="icon mdi mdi-animation-outline"></i>
                 <span class="text">Items</span>
               </a>
-              <ul id="ddmenu_item" class='collapse dropdown-nav @(route == "Items" || route == "Consumables"? "show" : "")'>
+              <ul id="ddmenu_item" class='collapse dropdown-nav @(route == "Items" || route == "ItemsConsumable"? "show" : "")'>
                 <li>
                   <a class='@(route == "Items" ? "active" : "")' asp-controller="Items" asp-action="Index">
                     Borrowable Items
                   </a>
                 </li>
+                 <li>
+                  <a class='@(route == "ItemsConsumable" ? "active" : "")' asp-controller="ItemsConsumable" asp-action="Index">
+                    Consumable Items
+                  </a>
+                </li>
               </ul>
             </li>
-            <li class='nav-item @(route == "RequestItems" ? "active" : "")'>
+
+            @* <li class='nav-item @(route == "RequestItems" ? "active" : "")'>
               <a asp-controller="RequestItems" asp-action="Index">
                 <i class="icon mdi mdi-file-send-outline"></i>
                 <span class="text">Borrow Requests</span>
               </a>
+            </li> *@
+
+             <li class='nav-item nav-item-has-children @(route == "RequestItems" || route == "RequestItemsConsumable"? "active" : "")'>
+              <a href="#0" class='@(route != "RequestItems" || route == "RequestItemsConsumable"? "collapsed" : "")' data-bs-toggle="collapse"
+                data-bs-target="#ddmenu_request" aria-controls="ddmenu_request" aria-expanded="@((route == "RequestItems")?"true" : "false")"
+                aria-label="Toggle navigation">
+                <i class="icon mdi mdi-file-send-outline"></i>
+                <span class="text">Request Items</span>
+              </a>
+              <ul id="ddmenu_request" class='collapse dropdown-nav @(route == "RequestItems" || route == "RequestItemsConsumable"? "show" : "")'>
+                <li>
+                  <a class='@(route == "RequestItems" ? "active" : "")' asp-controller="RequestItems" asp-action="Index">
+                    Borrowable Items
+                  </a>
+                </li>
+                   <li>
+                  <a class='@(route == "RequestItemsConsumable" ? "active" : "")' asp-controller="RequestItemsConsumable" asp-action="Index">
+                    Consumable Items
+                  </a>
+                </li>
+              </ul>
             </li>
+@* 
             <li class='nav-item @(route == "OrderItems" ? "active" : "")'>
               <a asp-controller="OrderItems" asp-action="Index">
                 <i class="icon mdi mdi-file-check-outline"></i>
                 <span class="text">Approved Requests</span>
               </a>
+            </li> *@
+
+             <li class='nav-item nav-item-has-children @(route == "OrderItems" || route == "OrderItemsConsumable"? "active" : "")'>
+              <a href="#0" class='@(route != "OrderItems" || route == "OrderItemsConsumable"? "collapsed" : "")' data-bs-toggle="collapse"
+                data-bs-target="#ddmenu_order" aria-controls="ddmenu_order"
+                aria-label="Toggle navigation">
+                <i class="icon mdi mdi-file-check-outline"></i>
+                <span class="text">Approved Requests</span>
+              </a>
+              <ul id="ddmenu_order" class='collapse dropdown-nav @(route == "OrderItems" || route == "OrderItemsConsumable"? "show" : "")'>
+                <li>
+                  <a class='@(route == "OrderItems" ? "active" : "")' asp-controller="OrderItems" asp-action="Index">
+                    Borrowable Items
+                  </a>
+                </li>
+                   <li>
+                  <a class='@(route == "OrderItemsConsumable" ? "active" : "")' asp-controller="OrderItemsConsumable" asp-action="Index">
+                    Consumable Items
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class='nav-item @(route == "BorrowedItems" ? "active" : "")'>
+
+
+            @* <li class='nav-item @(route == "BorrowedItems" ? "active" : "")'>
               <a asp-controller="BorrowedItems" asp-action="Index">
                 <i class="icon mdi mdi-file-clock-outline"></i>
                 <span class="text">Active Requests</span>
               </a>
+            </li> *@
+
+            <li class='nav-item nav-item-has-children @(route == "BorrowedItems" || route == "ConsumedItems"? "active" : "")'>
+              <a href="#0" class='@(route != "BorrowedItems" || route == "ConsumedItems"? "collapsed" : "")' data-bs-toggle="collapse"
+                data-bs-target="#ddmenu_activerequest" aria-controls="ddmenu_activerequest"
+                aria-label="Toggle navigation">
+                <i class="icon mdi mdi-file-clock-outline"></i>
+                <span class="text">Active Requests</span>
+              </a>
+              <ul id="ddmenu_activerequest" class='collapse dropdown-nav @(route == "BorrowedItems" || route == "ConsumedItems"? "show" : "")'>
+                <li>
+                  <a class='@(route == "BorrowedItems" ? "active" : "")' asp-controller="BorrowedItems" asp-action="Index">
+                    Borrowable Items
+                  </a>
+                </li>
+                   <li>
+                  <a class='@(route == "ConsumedItems" ? "active" : "")' asp-controller="ConsumedItems" asp-action="Index">
+                    Consumable Items
+                  </a>
+                </li>
+              </ul>
             </li>
+            
             <li class='nav-item @(route == "GoodReceipts" ? "active" : "")'>
               <a asp-controller="GoodReceipts" asp-action="Index">
                 <i class="icon mdi mdi-file-refresh-outline"></i>

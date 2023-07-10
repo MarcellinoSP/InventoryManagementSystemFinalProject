@@ -1,0 +1,208 @@
+@model IEnumerable<InventoryManagementSystem.Models.RequestItemConsumable>
+
+@{
+    ViewData["Title"] = "Consume Requests";
+    var searchString = @Context.Request.Query["SearchString"];
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Consume Requests</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Request an item
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="mb-3">
+        <div class="input-style-1 row">
+            <form asp-controller="RequestItemsConsumable" asp-action="Index" method="get" class="d-flex gap-2 col-3">
+                <input type="text" name="SearchString" value="@searchString" placeholder="Search..." />
+                <button class="main-btn search-btn primary-btn rounded-sm btn-hover">
+                    <i class="lni lni-search-alt px-3"></i>
+                </button>
+            </form>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-7"></div>
+                <div class="col-2">
+                    <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                        asp-controller="RequestItemsConsumable" asp-action="ExportToCsv">
+                        <i class="mdi mdi-microsoft-excel fs-4"></i> Download CSV
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+     <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <div class="table-wrapper table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <h6>Image</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Name</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Item Code</h6>
+                                    </th>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <th>
+                                            <h6>User Email</h6>
+                                        </th>
+                                    }
+                                    <th>
+                                        <h6>Request Created</h6>
+                                    </th>
+
+                                     <th>
+                                        <h6>Quantity</h6>
+                                    </th>
+                                  
+                                    <th>
+                                        <h6>Request Status</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Action</h6>
+                                    </th>
+                                </tr>
+                                <!-- end table row-->
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                         <td style="width: 60px;">
+                                            <div class="lead">
+                                                <div class="lead-image">
+                                                    <img src="~/uploads/@item.ItemConsumable.PicturePath" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="min-width">
+                                            <a asp-action="Details" asp-route-id="@item.RequestConsumableId">
+                                                <p class="text-primary">@Html.DisplayFor(modelItem => item.ItemConsumable!.Name)</p>
+                                            </a>
+                                        </td>
+                                        <td class="min-width">
+                                            <p>@Html.DisplayFor(modelItem => item.ItemConsumable!.KodeItemConsumable)</p>
+                                        </td>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <td class="min-width">
+                                                <p>@Html.DisplayFor(modelItem => item.User!.Email)</p>
+                                            </td>
+                                        }
+
+                                        <td class="min-width">
+                                            <p>@Html.DisplayFor(modelItem => item.CreateAt)</p>
+                                        </td>
+                                    
+                                        <td class="min-width">
+                                            <p>@Html.DisplayFor(modelItem => item.Quantity)</p>
+                                        </td>
+                                          <td class="min-width">
+                                            @switch (item.Status)
+                                            {
+                                                case RequestItemConsumableStatus.Approved:
+                                                    <span class="status-btn success-btn">Approved</span>
+                                                    break;
+                                                case RequestItemConsumableStatus.WaitingApproval:
+                                                    <span class="status-btn warning-btn">Waiting Approval</span>
+                                                    break;
+                                                case RequestItemConsumableStatus.Rejected:
+                                                    <span class="status-btn close-btn">Rejected</span>
+                                                    break;
+                                                default:
+                                                    <span class="status-btn light-btn">Cancelled</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        @if (User.IsInRole("Admin") && item.Status != RequestItemConsumableStatus.Approved &&
+                                        item.Status != RequestItemConsumableStatus.Rejected)
+                                        {
+                                            <td style="width: 234px;">
+                                                <div class="action gap-3">
+                                                    <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                                        asp-controller="OrderItemsConsumable" asp-action="Create"
+                                                        asp-route-requestConsumableId="@item.RequestConsumableId"
+                                                        asp-route-status="@RequestItemConsumableStatus.Approved">
+                                                        <i class="mdi mdi-check fs-4"></i> Approve
+                                                    </a>
+                                                    <a class="btn danger-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                                        asp-action="Reject" asp-route-id="@item.RequestConsumableId">
+                                                        <i class="mdi mdi-close fs-4"></i> Reject
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        }
+                                        else if (User.IsInRole("Employee"))
+                                        {
+                                            if (item.Status == RequestItemConsumableStatus.WaitingApproval)
+                                            {
+
+                                                <td style="width: 93px;">
+                                                    <a class="main-btn search-btn primary-btn rounded-sm btn-hover"
+                                                        asp-controller="RequestItemsConsumable" asp-action="Edit"
+                                                        asp-route-id="@item.RequestConsumableId">Edit</a>
+                                                </td>
+                                            }
+                                            else if (item.Status == RequestItemConsumableStatus.Approved)
+                                            {
+                                                <td style="width: 93px;">
+                                                    <a class="main-btn search-btn primary-btn-outline rounded-sm btn-hover"
+                                                        asp-controller="OrderItemsConsumable" asp-action="Index"
+                                                        asp-route-id="@item.RequestConsumableId">See More ... </a>
+                                                </td>
+                                            }
+                                            else if (item.Status == RequestItemConsumableStatus.Rejected)
+                                            {
+                                                <td style="width: 93px;">
+                                                    <a class="main-btn search-btn primary-btn-outline rounded-sm btn-hover"
+                                                        asp-controller="RequestItemsConsumable" asp-action="Details"
+                                                        asp-route-id="@item.RequestConsumableId">See More ... </a>
+                                                </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <div class="main-btn search-btn light-btn rounded-sm btn-hover">
+                                                    No Action
+                                                </div>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

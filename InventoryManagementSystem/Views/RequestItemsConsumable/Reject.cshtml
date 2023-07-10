@@ -1,0 +1,79 @@
+@model InventoryManagementSystem.Models.RequestItemConsumable
+
+@{
+    ViewData["Title"] = "Reject Request";
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Requests</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @ViewBag.Title
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Reject" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="RequestConsumableId"/>
+        <div class="card-style mb-30 row">
+
+            @{
+                var itemList = ViewData["ItemConsumableId"] as SelectList;
+            }
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="ItemConsumableId">Item Code</label>
+                <input class="form-control" value="@itemList?.FirstOrDefault()?.Text" readonly />
+                <input asp-for="ItemConsumableId" class="form-control d-none" readonly />
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="UserId" class="control-label">User Email</label>
+                <input asp-for="UserId" class="form-control d-none" readonly />
+                <input value="@User.Identity?.Name" class="form-control" readonly />
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="CreateAt" class="control-label">Created at</label>
+                <input asp-for="CreateAt" class="form-control" readonly />
+                <span asp-validation-for="CreateAt" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="RequestConsumeDate" class="control-label">Request Consume Date</label>
+                <input asp-for="RequestConsumeDate" class="form-control" readonly />
+                <span asp-validation-for="RequestConsumeDate" class="text-danger"></span>
+            </div>
+            
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="NoteRequest">User Note</label>
+                <input asp-for="NoteRequest" class="form-control" readonly />
+                <span asp-validation-for="NoteRequest" class="text-danger"></span>
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="NoteActionRequest">Reason (Required)</label>
+                <input asp-for="NoteActionRequest" class="form-control" />
+                <span asp-validation-for="NoteActionRequest" class="text-danger"></span>
+            </div>
+            <div class="col-12 mt-2 d-flex gap-4">
+                <a asp-action="Index" type="button" class="main-btn danger-btn-outline rounde-sm btn-hover">Cancel</a>
+                <button type="submit" class="main-btn danger-btn rounde-sm btn-hover">Reject</button>
+            </div>
+        </div>
+    </form>

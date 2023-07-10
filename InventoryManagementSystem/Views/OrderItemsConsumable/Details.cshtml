@@ -1,0 +1,74 @@
+@model InventoryManagementSystem.Models.OrderItemConsumable
+
+@{
+    ViewData["Title"] = "Detail Order Item";
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Request Item</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @ViewBag.Title
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-style mb-30 row">
+        <div class="input-style-1 mb-2 col-4">
+            <label>User Email</label>
+            <input value=@Model.User?.Email placeholder="Email User" readonly />
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Item Code</label>
+            <input value="@Model.ItemConsumable?.KodeItemConsumable" placeholder="Kode Item" readonly />
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Name</label>
+            <input value="@Model.ItemConsumable?.Name" placeholder="Nama Item" readonly />
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Request Approved at</label>
+            <input asp-for="CreateAt" placeholder="Tanggal disetujui" readonly />
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Approved Consume Date</label>
+            <input asp-for="ConsumeDateApproved" placeholder="Consume Date Approved" readonly />
+        </div>
+        @* <div class="input-style-1 mb-2 col-4">
+            <label>Approved Due Date</label>
+            <input asp-for="DueDateApproved" placeholder="Due Date Approved" readonly />
+        </div> *@
+        <div class="input-style-1 mb-2 col-4">
+            <label>Status</label>
+            <input asp-for="Status" placeholder="status" readonly />
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Note for Pick Up</label>
+            <textarea asp-for="NoteWaitingPickUp" placeholder="Note If Waiting Pick Up" readonly></textarea>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label>Note when Picked Up</label>
+            <textarea asp-for="NoteWaitingPickUp" placeholder="Note If Pickup Done" readonly></textarea>
+        </div>
+
+        <div class="col-12 mt-2 d-flex gap-2">
+            <a asp-action="Index" type="button" class="main-btn primary-btn rounde-sm btn-hover">Back</a>
+        </div>
+    </div>
+</div>
