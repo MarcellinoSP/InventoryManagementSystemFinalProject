@@ -1,0 +1,209 @@
+@model InventoryManagementSystem.Models.BrokenItem
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Daftar Broken Item</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @ViewBag.Title
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div class="card-style mb-30 row">
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="BrokenId"></label>
+                <input type="hidden" asp-for="BrokenId" />
+                <span asp-validation-for="BrokenId" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="ItemId">Item ID</label>
+                <input asp-for="ItemId" placeholder="ItemId" readonly/>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label>User Email</label>
+                <input  value="@Model.User.Email" placeholder="NamaItem" readonly/>
+                <input type="hidden" asp-for="UserId" placeholder="ItemId" />
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="CreateAt">Create At</label>
+                <input asp-for="CreateAt" placeholder="CreateAt" readonly/>
+                <span asp-validation-for="CreateAt" class="text-danger"></span>
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="BrokenDate">Broken Date</label>
+                <input asp-for="BrokenDate" placeholder="BrokenDate" readonly/>
+                <span asp-validation-for="BrokenDate" class="text-danger"></span>
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="NoteItemBroken">Note Item Broken</label>
+                <input asp-for="NoteItemBroken" placeholder="NoteItemBroken" readonly/>
+                <span asp-validation-for="NoteItemBroken" class="text-danger"></span>
+            </div>
+
+            <div class="input-style-1 mb-2 col-4 d-none">
+                <label asp-for="BorrowedId">Borrowed ID</label>
+                <input asp-for="BorrowedId" placeholder="Borrowed Id" readonly/>
+                <span asp-validation-for="BorrowedId" class="text-danger"></span>
+            </div>
+            <div class="input-style-1 mb-2 col-4">
+                <label asp-for="Status"></label>
+                <select id="statusItemBroken" asp-for="Status" class="form-control">
+                    <option value="">-- Select Status --</option>
+                    @foreach (var item in Enum.GetValues(typeof(BrokenItemStatus)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+            <div id="parentNoteItemFound" class="input-style-1 mb-2 col-4">
+                <label asp-for="NoteItemFound"></label>
+                <input asp-for="NoteItemFound" placeholder="Note Item Broken" />
+                <span asp-validation-for="NoteItemFound" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="main-btn success-btn rounde-sm btn-hover" />
+            </div>
+            <div class="col-12 mt-2 d-flex gap-2">
+                <a asp-action="Index" type="button" class="main-btn primary-btn rounde-sm btn-hover">Back To List</a>
+            </div>
+        </div>
+    </form>
+
+    <form asp-controller="BrokenEmail" asp-action="SendEmail" method="post">
+        <fieldset>
+            <legend>Send Email</legend>
+            <div class="card-style mb-30 row">
+                <div class="form-group">
+                    @* <label for="recipient">Recipient:</label> *@
+                    <input type="hidden" class="form-control" id="recipient" name="recipient" value="@Model.User.Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="body">Message Broken Mail:</label>
+                    <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="attachment">Attachment:</label>
+                    <div class="custom-file">
+                        <input type="file" class="form-control-input" id="attachment" name="attachment" style="border: 1px solid #ced4da;">
+                    </div>
+                </div>
+                <div class="mt-2 d-flex gap-2">
+                    <button type="submit" class="main-btn primary-btn rounde-s">Send Email</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+@*
+<h1>Edit</h1>
+
+<h4>BrokenItem</h4>
+<hr />
+<div class="row">
+<div class="col-md-4">
+<form asp-action="Edit">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="BrokenId" />
+<div class="form-group">
+<label asp-for="ItemId" class="control-label"></label>
+<select asp-for="ItemId" class="form-control" asp-items="ViewBag.ItemId"></select>
+<span asp-validation-for="ItemId" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="UserId" class="control-label"></label>
+<select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+<span asp-validation-for="UserId" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="CreateAt" class="control-label"></label>
+<input asp-for="CreateAt" class="form-control" />
+<span asp-validation-for="CreateAt" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="BrokenDate" class="control-label"></label>
+<input asp-for="BrokenDate" class="form-control" />
+<span asp-validation-for="BrokenDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="NoteItemBroken" class="control-label"></label>
+<input asp-for="NoteItemBroken" class="form-control" />
+<span asp-validation-for="NoteItemBroken" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="NoteItemFound" class="control-label"></label>
+<input asp-for="NoteItemFound" class="form-control" />
+<span asp-validation-for="NoteItemFound" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="BorrowedId" class="control-label"></label>
+<select asp-for="BorrowedId" class="form-control" asp-items="ViewBag.BorrowedId"></select>
+<span asp-validation-for="BorrowedId" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Status" class="control-label"></label>
+<select asp-for="Status" class="form-control"></select>
+<span asp-validation-for="Status" class="text-danger"></span>
+</div>
+<div class="form-group">
+<input type="submit" value="Save" class="btn btn-primary" />
+</div>
+</form>
+</div>
+</div>
+
+<div>
+<a asp-action="Index">Back to List</a>
+</div>
+*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            $('#parentNoteItemFound').hide()
+            
+
+            
+            $('#statusItemBroken').change(function() {
+                let selected = $(this).val();
+
+                if(selected == "Active" || selected == ""){
+                    $('#parentNoteItemFound').hide()
+                }else{
+                    $('#parentNoteItemFound').show()
+                }
+            })
+        })
+    </script>
+}
