@@ -8,7 +8,7 @@ namespace InventoryManagementSystem.Data
 {
     public static class SetRoleOnDatabase
     {    //panggil service role manager dari bawaan library identity
-         public static async void CreateAdminEmployeeRole(WebApplication app)
+        public static async void CreateAdminEmployeeRole(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var roleManager = scope.ServiceProvider

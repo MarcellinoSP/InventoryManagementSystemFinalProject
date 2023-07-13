@@ -421,7 +421,7 @@ namespace InventoryManagementSystem.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		  private bool RequestItemConsumableExists(int id)
+		private bool RequestItemConsumableExists(int id)
 		{
 			return (_context.RequestItemsConsumable?.Any(e => e.RequestConsumableId == id)).GetValueOrDefault();
 		}
