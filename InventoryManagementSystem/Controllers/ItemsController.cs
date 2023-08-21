@@ -275,7 +275,6 @@ namespace InventoryManagementSystem.Controllers
                         SupplierId = itemViewModel.SupplierId,
 
                     };
-
                     _context.Update(newItem);
                     await _context.SaveChangesAsync();
                 }

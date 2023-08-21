@@ -10,7 +10,6 @@ public class SetAdminOnDatabase
             using var scope = app.Services.CreateScope();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
             await SetAdminAccount(userManager);
-
         }
         static async Task SetAdminAccount(UserManager<User> userManager)
         {

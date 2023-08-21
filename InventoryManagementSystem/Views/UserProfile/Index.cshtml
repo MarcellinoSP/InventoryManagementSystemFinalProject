@@ -1,0 +1,55 @@
+@model InventoryManagementSystem.Models.User
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @ViewBag.Title                             
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "card-style mb-row 30">
+        <div class="input-style-1 mb-2 col-4">
+            <label asp-for="IdEmployee">Employee ID</label>
+            <input asp-for="IdEmployee" placeholder="ID" readonly/>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label asp-for="FirstName">First Name</label>
+            <input asp-for="FirstName" placeholder="First Name" readonly/>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label asp-for="LastName">Last Name</label>
+            <input asp-for="LastName" placeholder="Last Name" readonly/>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label asp-for="Email">User Email</label>
+            <input asp-for="Email" placeholder="Email" readonly/>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
+            <label asp-for="PhoneNumber">Phone Number</label>
+            <input asp-for="PhoneNumber" placeholder="Phone number" readonly/>
+        </div>
+        <div class="col-12 mt-20 d-flex gap-2">
+            <a type = "Button" asp-action="Edit" class="main-btn success-btn rounde-sm btn-hover">
+                Edit Data
+            </a>
+        </div>
+    </div>
+</div>

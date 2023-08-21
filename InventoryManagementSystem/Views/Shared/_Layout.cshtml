@@ -241,14 +241,16 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
                       <li>
-                        <button type="button" class="border-0 bg-transparent"><i class="mdi mdi-account fs-4 me-2"></i> View
-                          Profile</button>
+                        <a asp-controller="UserProfile" asp-action="Index">
+                        <button type="button" class="border-0 bg-transparent">
+                          <i class="mdi mdi-account fs-4 me-2"></i> View Profile</button>
+                          </a>
                       </li>
                       <li>
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
                           asp-route-returnUrl='@Url.Page("/", new { area = "" })' method="post">
-                          <button type="submit" class="border-0 bg-transparent"><i
-                              class="mdi mdi-logout-variant fs-4 me-2"></i> Logout</button>
+                          <button type="submit" class="border-0 bg-transparent">
+                            <i class="mdi mdi-logout-variant fs-4 me-2"></i> Logout</button>
                         </form>
                       </li>
                     </ul>
