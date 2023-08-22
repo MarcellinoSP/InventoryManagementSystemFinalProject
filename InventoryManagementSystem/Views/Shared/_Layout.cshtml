@@ -160,6 +160,16 @@
               </ul>
             </li>
             
+            if (User.IsInRole("Admin"))
+            {
+              <li class='nav-item @(route == "ReStockConsumableItem" ? "active" : "")'>
+                <a asp-controller="ReStockConsumableItem" asp-action="Index">
+                  <i class="icon mdi mdi-file-send-outline"></i>
+                    <span class="text">Order Consumable Items</span>
+                </a>
+              </li>
+            }
+
             <li class='nav-item @(route == "GoodReceipts" ? "active" : "")'>
               <a asp-controller="GoodReceipts" asp-action="Index">
                 <i class="icon mdi mdi-file-refresh-outline"></i>
