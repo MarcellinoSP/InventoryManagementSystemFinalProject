@@ -34,5 +34,5 @@ public class ReStockConsumableItem
 
 	[Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number !")]
 	public int Quantity { get; set; }
-	public RequestItemConsumableStatus Status { get; set; } = RequestItemConsumableStatus.WaitingApproval;
+	public ReStockConsumableItemStatus Status { get; set; } = ReStockConsumableItemStatus.Requested;
 }

@@ -27,6 +27,10 @@
     </div>
     <div class = "card-style mb-row 30">
         <div class="input-style-1 mb-2 col-4">
+            <label asp-for="Email">User Email</label>
+            <input asp-for="Email" placeholder="Email" readonly/>
+        </div>
+        <div class="input-style-1 mb-2 col-4">
             <label asp-for="IdEmployee">Employee ID</label>
             <input asp-for="IdEmployee" placeholder="ID" readonly/>
         </div>
@@ -37,10 +41,6 @@
         <div class="input-style-1 mb-2 col-4">
             <label asp-for="LastName">Last Name</label>
             <input asp-for="LastName" placeholder="Last Name" readonly/>
-        </div>
-        <div class="input-style-1 mb-2 col-4">
-            <label asp-for="Email">User Email</label>
-            <input asp-for="Email" placeholder="Email" readonly/>
         </div>
         <div class="input-style-1 mb-2 col-4">
             <label asp-for="PhoneNumber">Phone Number</label>

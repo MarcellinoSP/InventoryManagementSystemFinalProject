@@ -14,6 +14,7 @@ using System.Globalization;
 
 namespace InventoryManagementSystem.Controllers
 {
+	[Authorize]
 	public class RequestItemsConsumableController : Controller
 	{
 		 private readonly ApplicationDbContext _context;

@@ -40,8 +40,10 @@
     <aside class="sidebar-nav-wrapper">
       <div class="navbar-logo">
         <a>
-          <img class="me-4" src="~/images/logo/logo.png" alt="" width="72" height="57">
-          <span class="fs-4 text-center">Inventory System Menu</span>
+          <span>
+            <img class="me-2" src="~/images/logo/logo.png" alt="" width="250" height="25">
+          </span>
+          @* <span class="fs-4 text-center text-light">Main Menu</span> *@
         </a>
       </div>
       <nav class="sidebar-nav">
@@ -49,7 +51,7 @@
           <li class='nav-item @(route == "Home" ? "active" : "")'>
             <a asp-controller="Home" asp-action="Index">
               <i class="icon mdi mdi-view-dashboard-outline"></i>
-              <span class="text">Home</span>
+              <span class="text-light">Home</span>
             </a>
           </li>
           @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
@@ -63,12 +65,12 @@
               </a>
               <ul id="ddmenu_item" class='collapse dropdown-nav @(route == "Items" || route == "ItemsConsumable"? "show" : "")'>
                 <li>
-                  <a class='@(route == "Items" ? "active" : "")' asp-controller="Items" asp-action="Index">
+                  <a class='text-light @(route == "Items" ? "active" : "")' asp-controller="Items" asp-action="Index">
                     Borrowable Items
                   </a>
                 </li>
                  <li>
-                  <a class='@(route == "ItemsConsumable" ? "active" : "")' asp-controller="ItemsConsumable" asp-action="Index">
+                  <a class='text-light @(route == "ItemsConsumable" ? "active" : "")' asp-controller="ItemsConsumable" asp-action="Index">
                     Consumable Items
                   </a>
                 </li>
@@ -91,12 +93,12 @@
               </a>
               <ul id="ddmenu_request" class='collapse dropdown-nav @(route == "RequestItems" || route == "RequestItemsConsumable"? "show" : "")'>
                 <li>
-                  <a class='@(route == "RequestItems" ? "active" : "")' asp-controller="RequestItems" asp-action="Index">
+                  <a class='text-light @(route == "RequestItems" ? "active" : "")' asp-controller="RequestItems" asp-action="Index">
                     Borrowable Items
                   </a>
                 </li>
                    <li>
-                  <a class='@(route == "RequestItemsConsumable" ? "active" : "")' asp-controller="RequestItemsConsumable" asp-action="Index">
+                  <a class='text-light @(route == "RequestItemsConsumable" ? "active" : "")' asp-controller="RequestItemsConsumable" asp-action="Index">
                     Consumable Items
                   </a>
                 </li>
@@ -119,12 +121,12 @@
               </a>
               <ul id="ddmenu_order" class='collapse dropdown-nav @(route == "OrderItems" || route == "OrderItemsConsumable"? "show" : "")'>
                 <li>
-                  <a class='@(route == "OrderItems" ? "active" : "")' asp-controller="OrderItems" asp-action="Index">
+                  <a class='text-light @(route == "OrderItems" ? "active" : "")' asp-controller="OrderItems" asp-action="Index">
                     Borrowable Items
                   </a>
                 </li>
                    <li>
-                  <a class='@(route == "OrderItemsConsumable" ? "active" : "")' asp-controller="OrderItemsConsumable" asp-action="Index">
+                  <a class='text-light @(route == "OrderItemsConsumable" ? "active" : "")' asp-controller="OrderItemsConsumable" asp-action="Index">
                     Consumable Items
                   </a>
                 </li>
@@ -148,12 +150,12 @@
               </a>
               <ul id="ddmenu_activerequest" class='collapse dropdown-nav @(route == "BorrowedItems" || route == "ConsumedItems"? "show" : "")'>
                 <li>
-                  <a class='@(route == "BorrowedItems" ? "active" : "")' asp-controller="BorrowedItems" asp-action="Index">
+                  <a class='text-light @(route == "BorrowedItems" ? "active" : "")' asp-controller="BorrowedItems" asp-action="Index">
                     Borrowable Items
                   </a>
                 </li>
                    <li>
-                  <a class='@(route == "ConsumedItems" ? "active" : "")' asp-controller="ConsumedItems" asp-action="Index">
+                  <a class='text-light @(route == "ConsumedItems" ? "active" : "")' asp-controller="ConsumedItems" asp-action="Index">
                     Consumable Items
                   </a>
                 </li>
@@ -165,7 +167,7 @@
               <li class='nav-item @(route == "ReStockConsumableItem" ? "active" : "")'>
                 <a asp-controller="ReStockConsumableItem" asp-action="Index">
                   <i class="icon mdi mdi-file-send-outline"></i>
-                    <span class="text">Order Consumable Items</span>
+                    <span class="text-light">Order Consumable Items</span>
                 </a>
               </li>
             }
@@ -173,7 +175,7 @@
             <li class='nav-item @(route == "GoodReceipts" ? "active" : "")'>
               <a asp-controller="GoodReceipts" asp-action="Index">
                 <i class="icon mdi mdi-file-refresh-outline"></i>
-                <span class="text">Returned Items</span>
+                <span class="text-light">Returned Items</span>
               </a>
             </li>
           }
@@ -182,31 +184,31 @@
             <li class='nav-item @(route == "Categories" ? "active" : "")'>
               <a asp-controller="Categories" asp-action="Index">
                 <i class="icon mdi mdi-shape-outline"></i>
-                <span class="text">Categories</span>
+                <span class="text-light">Categories</span>
               </a>
             </li>
             <li class='nav-item @(route == "SubCategories" ? "active" : "")'>
               <a asp-controller="SubCategories" asp-action="Index">
                 <i class="icon mdi mdi-file-tree-outline"></i>
-                <span class="text">Sub Categories</span>
+                <span class="text-light">Sub Categories</span>
               </a>
             </li>
             <li class='nav-item @(route == "Suppliers" ? "active" : "")'>
               <a asp-controller="Suppliers" asp-action="Index">
                 <i class="icon mdi mdi-shape-outline"></i>
-                <span class="text">Suppliers</span>
+                <span class="text-light">Suppliers</span>
               </a>
             </li>
             <li class='nav-item @(route == "LostItems" ? "active" : "")'>
               <a href="LostItems" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
-                <span class="text">Lost Items</span>
+                <span class="text-light">Lost Items</span>
               </a>
             </li>
             <li class='nav-item @(route == "BrokenItems" ? "active" : "")'>
               <a href="BrokenItems" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
-                <span class="text">Broken Items</span>
+                <span class="text-light">Broken Items</span>
               </a>
             </li>
           }
@@ -238,8 +240,10 @@
                       <div class="profile-info">
                         <div class="info">
                           <div class="text-end">
-                            <h6>@firstname @lastname</h6>
+                            <div class="text-light">
+                            <h6><div class="text-light">@firstname @lastname</div></h6>
                             <small>@email</small>
+                            </div>
                           </div>
                           <div class="image">
                             <img src="~/assets/images/profile/profile-image.png" alt="" />
@@ -253,14 +257,14 @@
                       <li>
                         <a asp-controller="UserProfile" asp-action="Index">
                         <button type="button" class="border-0 bg-transparent">
-                          <i class="mdi mdi-account fs-4 me-2"></i> View Profile</button>
+                          <i class="mdi mdi-account fs-4 me-2"></i>View Profile</button>
                           </a>
                       </li>
                       <li>
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
                           asp-route-returnUrl='@Url.Page("/", new { area = "" })' method="post">
                           <button type="submit" class="border-0 bg-transparent">
-                            <i class="mdi mdi-logout-variant fs-4 me-2"></i> Logout</button>
+                            <i class="mdi mdi-logout-variant fs-4 me-2"></i>Logout</button>
                         </form>
                       </li>
                     </ul>

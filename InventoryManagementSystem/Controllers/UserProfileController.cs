@@ -5,7 +5,6 @@ using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace InventoryManagementSystem.Controllers;
 

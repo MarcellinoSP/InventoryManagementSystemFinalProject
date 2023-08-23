@@ -427,7 +427,7 @@ h6,
 
 /* primary buttons */
 .primary-btn {
-  background: #4a6cf7;
+  background: #000000;
   color: #fff;
 }
 
@@ -2187,7 +2187,7 @@ h6,
 /* ========== header css ========== */
 .header {
   padding: 30px 0;
-  background: #fff;
+  background: #F69D36;
 }
 
 .header .header-left .menu-toggle-btn .main-btn {
@@ -3041,7 +3041,7 @@ h6,
 
 /* =========== Sidebar css =========== */
 .sidebar-nav-wrapper {
-  background: #fff;
+  background: #101010;
   width: 300px;
   padding: 20px 0px;
   height: 100vh;
@@ -3115,10 +3115,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item {
   position: relative;
   margin: 5px 0px;
+  color: #ffffff;
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children>a {
-  color: #262d3f;
+  color: #ffffff;
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children>a::before {
@@ -3146,7 +3147,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children>a.collapsed {
-  color: #5d657b;
+  color: #ffffff;
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children>a.collapsed::before {
@@ -3186,9 +3187,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children ul li a.active,
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children ul li a:hover {
-  color: #4a6cf7;
-  border-color: rgba(74, 108, 247, 0.15);
-  background: rgba(74, 108, 247, 0.1);
+  color: #F69D36;
+  border-color: #F69D36;
+  background: rgba(101, 103, 110, 0.1);
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children ul li a i {
@@ -3204,7 +3205,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.nav-item-has-children ul li a span.pro-badge {
-  background: #4a6cf7;
+  background: #F69D36;
   color: #fff;
   padding: 1px 6px;
   border-radius: 4px;
@@ -3215,7 +3216,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item a {
   display: flex;
   align-items: center;
-  color: #5d657b;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   width: 100%;
@@ -3231,7 +3232,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
   top: 0;
   height: 100%;
   width: 4px;
-  background: #4a6cf7;
+  background: #F69D36;
   border-radius: 0 3px 3px 0px;
   opacity: 0;
   visibility: hidden;
@@ -3272,7 +3273,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.active>a.collapsed,
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item:hover>a,
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item:hover>a.collapsed {
-  color: #262d3f;
+  color: #ffffff;
 }
 
 .sidebar-nav-wrapper .sidebar-nav ul .nav-item.active>a::before,
