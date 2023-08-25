@@ -40,7 +40,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication()
 .AddCookie(options => 
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 })
 .AddGoogle(options =>
 {

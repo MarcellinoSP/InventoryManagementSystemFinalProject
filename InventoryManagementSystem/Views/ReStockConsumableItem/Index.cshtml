@@ -1,0 +1,93 @@
+@model IEnumerable<InventoryManagementSystem.Models.ReStockConsumableItem>
+
+@{
+    ViewData["Title"] = "Request Consumable Item";
+}
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Request Consumable Item</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Request Item
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <div class="col-2">
+            <a asp-action="Create" class="main-btn primary-btn rounded-sm btn-hover h-100" style="">Order Item</a>
+        </div>
+    </div>
+
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <div class="table-wrapper table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <h6>Image</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Name</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Item Code</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Request Order Date</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Quantity</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Supplier</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Status Order</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Action</h6>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PicturePath)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(itemModel => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.KodeItemConsumable)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
