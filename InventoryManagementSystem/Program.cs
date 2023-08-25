@@ -38,7 +38,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 });
 
 builder.Services.AddAuthentication()
-.AddCookie(options => 
+.AddCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 })
@@ -54,6 +54,21 @@ builder.Services.AddAuthentication()
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+//setting sesion on 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = ".AspNetCore.Identity.Application";
+    options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
+    options.SlidingExpiration = true;
+}
+);
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(5);
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 //untuk set awal data role dan akun admin agar nantinya bisa di pisahkan logic webnya
@@ -77,6 +92,9 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//session
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
