@@ -1,59 +1,101 @@
 @model IEnumerable<InventoryManagementSystem.Models.ReStockItem>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Request Consumable Item";
 }
 
-<h1>Index</h1>
-
+<div class="title-wrapper pt-30">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div class="title mb-30">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="breadcrumb-wrapper mb-30">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#0">Request Consumable Item</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Request Item
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Request</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemConsumable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KodeItemConsumable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestStockDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemConsumable.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KodeItemConsumable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestStockDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ReStockID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReStockID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReStockID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="tables-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <div class="table-wrapper table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h6>Image</h6>
+                                </th>
+                                <th>
+                                    <h6>Item</h6>
+                                </th>
+                                <th>
+                                    <h6>Request Date</h6>
+                                </th>
+                                <th>
+                                    <h6>Supplier</h6>
+                                </th>
+                                <th>
+                                    <h6>Quantity Requested</h6>
+                                </th>
+                                <th>
+                                    <h6>Status</h6>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="width: 60px;">
+                                        <div class="lead">
+                                            <div class="lead-image">
+                                                <img src="~/uploads/@item.ItemConsumable.PicturePath" alt="" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemConsumable.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RequestStockDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemConsumable.SupplierId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.ReStockID">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.ReStockID">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.ReStockID">Cancel</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
