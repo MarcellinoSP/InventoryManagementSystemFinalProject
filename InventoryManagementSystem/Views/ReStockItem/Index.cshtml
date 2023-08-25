@@ -56,6 +56,9 @@
                                 <th>
                                     <h6>Status</h6>
                                 </th>
+                                <th>
+                                    <h6>Action</h6>
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -85,10 +88,18 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Status)
                                     </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.ReStockID">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.ReStockID">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.ReStockID">Cancel</a>
+                                    <td style="width: 234px">
+                                        <div class="action gap-3">
+                                            <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                                asp-action="Edit" asp-route-id="@item.ReStockID">
+                                                <i class="mdi mdi-screwdriver fs-4"></i>Edit</a>
+                                            <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                                asp-action="Received" asp-route-id="@item.ReStockID">
+                                                <i class="mdi mdi-check fs-4"></i>Received</a>
+                                            <a class="btn danger-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                                asp-action="Delete" asp-route-id="@item.ReStockID">
+                                                <i class="mdi mdi-close fs-4"></i>Cancel</a>
+                                        </div>
                                     </td>
                                 </tr>
                             }

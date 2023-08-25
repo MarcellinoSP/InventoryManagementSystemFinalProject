@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagementSystem.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class ReStockItemController : Controller
 	{
 		private readonly ApplicationDbContext _context;
@@ -128,6 +130,49 @@ namespace InventoryManagementSystem.Controllers
 			}
 			ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "Name", reStockItem.ItemConsumableId);
 			return View(reStockItem);
+		}
+		
+		public async Task<IActionResult> Received(int? id)
+		{
+			if (id == null || _context.ReStockItem == null)
+			{
+				return NotFound();
+			}
+
+			var reStockItem = await _context.ReStockItem
+				.Include(r => r.ItemConsumable)
+				.FirstOrDefaultAsync(m => m.ReStockID == id);
+			if (reStockItem == null)
+			{
+				return NotFound();
+			}
+			// ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "Name", reStockItem.ItemConsumableId);
+			return View(reStockItem);
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> Received(ReStockItem newStock, int id)
+		{
+			if (id == null || _context.ReStockItem == null)
+			{
+				return NotFound();
+			}
+
+			var reStockItem = await _context.ReStockItem
+				.Include(r => r.ItemConsumable)
+				.FirstOrDefaultAsync(m => m.ReStockID == id);	
+			
+			if (reStockItem == null)
+			{
+				return NotFound();
+			}
+			
+			var itemConsumable = reStockItem.ItemConsumable;
+			itemConsumable.Quantity += reStockItem.Quantity;
+			
+			int changes = _context.SaveChanges();
+			
+			return RedirectToAction(nameof(Index));
 		}
 
 		// GET: ReStockItem/Delete/5
