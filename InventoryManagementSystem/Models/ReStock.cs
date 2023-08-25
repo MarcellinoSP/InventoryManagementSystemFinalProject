@@ -17,10 +17,12 @@ public class ReStockItem
 	public int ItemConsumableId { get; set; }
 	public virtual ItemConsumable? ItemConsumable { get; set; }
 	public string? KodeItemConsumable { get; set; }
+	
+	
 
 	[Required]
 	[DataType(DataType.Date)]
-	public DateTime RequestStockDate { get; set; }
+	public DateTime RequestStockDate { get; set; } = DateTime.Now;
 
 	[Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number !")]
 	public int Quantity { get; set; }

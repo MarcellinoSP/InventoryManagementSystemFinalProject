@@ -22,7 +22,8 @@ namespace InventoryManagementSystem.Controllers
 		// GET: ReStockItem
 		public async Task<IActionResult> Index()
 		{
-			var applicationDbContext = _context.ReStockItem.Include(r => r.ItemConsumable);
+			var applicationDbContext = _context.ReStockItem
+										.Include(r => r.ItemConsumable);
 			return View(await applicationDbContext.ToListAsync());
 		}
 
