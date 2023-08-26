@@ -87,7 +87,7 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var lostItem = _context.LostItems.Include(c=>c.User).Where(d=>d.LostId==id).FirstOrDefault();
+            var lostItem = _context.LostItems.Include(c => c.User).Where(d => d.LostId == id).FirstOrDefault();
             if (lostItem == null)
             {
                 return NotFound();
@@ -114,9 +114,11 @@ namespace InventoryManagementSystem.Controllers
             {
                 try
                 {
-                    if(lostItem.Status == LostItemStatus.Resolve){
-                        var item = _context.Items.Where(c=> c.IdItem == lostItem.ItemId).FirstOrDefault();
-                        if(item == null){
+                    if (lostItem.Status == LostItemStatus.Resolve)
+                    {
+                        var item = _context.Items.Where(c => c.IdItem == lostItem.ItemId).FirstOrDefault();
+                        if (item == null)
+                        {
                             return NotFound();
                         }
 
@@ -124,7 +126,7 @@ namespace InventoryManagementSystem.Controllers
                         _context.Update(item);
                         await _context.SaveChangesAsync();
                     }
-                    
+
                     _context.Update(lostItem);
                     await _context.SaveChangesAsync();
                 }
@@ -182,7 +184,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 _context.LostItems.Remove(lostItem);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -230,6 +232,6 @@ namespace InventoryManagementSystem.Controllers
                 return Content(sw.ToString());
             }
         }
-    
+
     }
 }
