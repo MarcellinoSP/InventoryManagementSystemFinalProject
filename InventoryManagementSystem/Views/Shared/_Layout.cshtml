@@ -262,7 +262,7 @@
                       </li>
                       <li>
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-                          asp-route-returnUrl='@Url.Page("/", new { area = "" })' method="post">
+                          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
                           <button type="submit" class="border-0 bg-transparent">
                             <i class="mdi mdi-logout-variant fs-4 me-2"></i>Logout</button>
                         </form>

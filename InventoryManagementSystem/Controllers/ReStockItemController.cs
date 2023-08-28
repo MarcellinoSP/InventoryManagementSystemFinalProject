@@ -151,6 +151,7 @@ namespace InventoryManagementSystem.Controllers
 		}
 		
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Received(ReStockItem newStock, int id)
 		{
 			if (id == null || _context.ReStockItem == null)
@@ -169,6 +170,7 @@ namespace InventoryManagementSystem.Controllers
 			
 			var itemConsumable = reStockItem.ItemConsumable;
 			itemConsumable.Quantity += reStockItem.Quantity;
+			reStockItem.Status = ReStockStatus.Received;
 			
 			int changes = _context.SaveChanges();
 			
@@ -204,10 +206,11 @@ namespace InventoryManagementSystem.Controllers
 				return Problem("Entity set 'ApplicationDbContext.ReStockItem'  is null.");
 			}
 			var reStockItem = await _context.ReStockItem.FindAsync(id);
-			if (reStockItem != null)
-			{
-				_context.ReStockItem.Remove(reStockItem);
-			}
+			// if (reStockItem != null)
+			// {
+			// 	_context.ReStockItem.Remove(reStockItem);
+			// }
+			reStockItem.Status = ReStockStatus.Canceled;
 			
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
