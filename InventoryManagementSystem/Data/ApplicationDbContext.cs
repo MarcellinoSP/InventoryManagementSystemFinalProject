@@ -21,7 +21,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
 	public DbSet<GoodReceipt> GoodReceipts { get; set; } = default!;
 	public DbSet<LostItem> LostItems { get; set; } = default!;
 	public DbSet<BrokenItem> BrokenItems { get; set; } = default!;
-	public DbSet<ReStockConsumableItem> ReStockConsumableItems {get; set; } = default!;	
+	public DbSet<ReStockConsumableItem> ReStockConsumableItems {get; set; } = default!;
+	public DbSet<ReStockItem> ReStockItem {get; set;} = default!;	
 	
 	public DbSet<User> users {get; set;} = default!;
 

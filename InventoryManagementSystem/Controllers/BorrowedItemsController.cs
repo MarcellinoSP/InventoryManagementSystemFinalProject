@@ -105,7 +105,6 @@ namespace InventoryManagementSystem.Controllers
             {
                 return NotFound();
             }
-
             var borrowedItem = await _context.BorrowedItems
                 .Include(b => b.Item)
                 .Include(b => b.OrderItem)
