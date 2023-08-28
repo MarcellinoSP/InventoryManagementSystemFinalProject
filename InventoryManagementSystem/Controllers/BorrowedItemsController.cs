@@ -45,8 +45,27 @@ namespace InventoryManagementSystem.Controllers
                 allBorrowedItems = allBorrowedItems.Where(w => w.UserId == userId).ToList();
 
             }
+            foreach (var borrowedItem in allBorrowedItems)
+            {
+                if (borrowedItem.DueDate < DateTime.Now && borrowedItem.Status == BorrowedItemStatus.StillBorrowed)
+                {
+                    borrowedItem.Status = BorrowedItemStatus.DoneAndLost;
+                    _context.Update(borrowedItem);
+                    var lostItem = new LostItem
+                    {
+                        ItemId = borrowedItem.ItemId,
+                        UserId = borrowedItem.UserId,
+                        CreateAt = DateTime.Now,
+                        LostDate = DateTime.Now,
+                        NoteItemLost = "Item lost due to overdue borrowing",
+                        BorrowedId = borrowedItem.BorrowedId,
+                        Status = LostItemStatus.Active
+                    };
+                    _context.LostItems.Add(lostItem);
+                }
+            }
+            await _context.SaveChangesAsync();
             return View(allBorrowedItems);
-
         }
 
         private async Task<List<BorrowedItem>> GetAllDataFromDatabase()
