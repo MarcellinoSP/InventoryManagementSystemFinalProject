@@ -161,7 +161,7 @@ namespace InventoryManagementSystem.Controllers
                 //kode untuk ganti status di req item yang sudah di approved
                 requestItem.Status = RequestItemStatus.Approved;//ubah status jadi approved
                 requestItem.OrderItemId = orderItem.OrderId;//tambah data orderId di object
-                _context.Update(requestItem);//update entitas reqitem ke database
+                _context.Update(requestItem);//update entitas req item ke database
                 await _context.SaveChangesAsync();//pasangan dg atasnya. update entitas reqitem ke database
 
                 var currentDate = DateTime.Now.Date;
