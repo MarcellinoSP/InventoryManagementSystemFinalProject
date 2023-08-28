@@ -44,6 +44,8 @@ namespace InventoryManagementSystem.Models
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
+        //adding remaining days to database
+        // public int RemainingDays { get; set; }
         public string NoteBorrowed { get; set; } = "";
         public string? PicturePath { get; set; }
         public int? LostId { get; set; }

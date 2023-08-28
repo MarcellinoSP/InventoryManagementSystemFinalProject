@@ -55,6 +55,7 @@ namespace InventoryManagementSystem.Controllers
                     {
                         ItemId = borrowedItem.ItemId,
                         UserId = borrowedItem.UserId,
+                        User = borrowedItem.User,
                         CreateAt = DateTime.Now,
                         LostDate = DateTime.Now,
                         NoteItemLost = "Item lost due to overdue borrowing",
@@ -63,6 +64,7 @@ namespace InventoryManagementSystem.Controllers
                     };
                     _context.LostItems.Add(lostItem);
                 }
+                // borrowedItem.RemainingDays = (int)(borrowedItem.DueDate - DateTime.Now).TotalDays;
             }
             await _context.SaveChangesAsync();
             return View(allBorrowedItems);
@@ -171,6 +173,7 @@ namespace InventoryManagementSystem.Controllers
                     ItemId = borrowedItemViewModel.ItemId,
                     PicturePath = uniqueFileName,
                     UserId = borrowedItemViewModel.UserId,
+                    User = borrowedItemViewModel.User,
                     CreateAt = DateTime.Now,
                     BorrowedDate = borrowedItemViewModel.BorrowedDate,
                     DueDate = borrowedItemViewModel.DueDate,
@@ -229,7 +232,7 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var borrowedItem = await _context.BorrowedItems.FindAsync(id);
+            var borrowedItem = _context.BorrowedItems.Include(c => c.User).Where(d => d.BorrowedId == id).FirstOrDefault();
             if (borrowedItem == null)
             {
                 return NotFound();
@@ -245,10 +248,10 @@ namespace InventoryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Edit(int id, [Bind("BorrowedId,OrderId,ReceiptId,ItemId,UserId,CreateAt,BorrowedDate,DueDate,NoteBorrowed,PicturePath,Status")] BorrowedItem borrowedItem)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, BorrowedItemViewModel borrowedItemViewModel)
         {
-            if (id != borrowedItem.BorrowedId)
+            if (id != borrowedItemViewModel.BorrowedId)
             {
                 return NotFound();
             }
@@ -257,12 +260,19 @@ namespace InventoryManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(borrowedItem);
+                    var originalBorrowedItem = await _context.BorrowedItems.FindAsync(id);
+
+                    // Update only the allowed fields
+                    originalBorrowedItem.DueDate = borrowedItemViewModel.DueDate;
+                    originalBorrowedItem.NoteBorrowed = borrowedItemViewModel.NoteBorrowed;
+                    originalBorrowedItem.Status = borrowedItemViewModel.Status;
+
+                    _context.Update(originalBorrowedItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BorrowedItemExists(borrowedItem.BorrowedId))
+                    if (!BorrowedItemExists(borrowedItemViewModel.BorrowedId))
                     {
                         return NotFound();
                     }
@@ -271,14 +281,12 @@ namespace InventoryManagementSystem.Controllers
                         throw;
                     }
                 }
+                TempData["Message"] = "Data successfully updated.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem", borrowedItem.ItemId);
-            ViewData["OrderId"] = new SelectList(_context.OrderItems, "OrderId", "OrderId", borrowedItem.OrderId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", borrowedItem.UserId);
-            return View(borrowedItem);
-        }
 
+            return View(borrowedItemViewModel);
+        }
         // GET: BorrowedItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

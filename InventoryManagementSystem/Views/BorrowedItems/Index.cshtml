@@ -165,26 +165,28 @@
                                                         No Action
                                                     </div>
                                                 }
-                                                else if (item.Status == BorrowedItemStatus.DoneAndLost)
+                                                else if (item.Status == BorrowedItemStatus.DoneAndLost || item.Status ==
+                                                BorrowedItemStatus.DoneAndBroken)
                                                 {
                                                     <div class="action">
                                                         <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-action="Edit" asp-route-Id="@item.BorrowedId">
+                                                            asp-action="Edit" asp-controller="BorrowedItems"
+                                                            asp-route-id="@item.BorrowedId">
                                                             <i class="mdi mdi-file-hidden fs-4"></i> See Details
                                                         </a>
                                                     </div>
                                                 }
-                                                else if (item.Status == BorrowedItemStatus.DoneAndBroken)
-                                                {
-                                                    <div class="action">
-                                                        <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-controller="BrokenItems" asp-action="Index"
-                                                            asp-route-borrowedId="@item.BorrowedId">
-                                                            <i class="mdi mdi-file-hidden fs-4"></i> See Details
-                                                        </a>
-                                                    </div>
-                                                }
-                                                else
+                                                @* else if (item.Status == BorrowedItemStatus.DoneAndBroken)
+                                        {
+                                        <div class="action">
+                                        <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                        asp-controller="BrokenItems" asp-action="Index"
+                                        asp-route-borrowedId="@item.BorrowedId">
+                                        <i class="mdi mdi-file-hidden fs-4"></i> See Details
+                                        </a>
+                                        </div>
+                                        } *@
+                                                else if (item.Status == BorrowedItemStatus.StillBorrowed)
                                                 {
                                                     <div class="action">
                                                         <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
