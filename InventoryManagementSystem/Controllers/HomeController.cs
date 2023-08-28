@@ -16,8 +16,8 @@ public class HomeController : Controller
     public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, ApplicationDbContext context)
     {
         _logger = logger;
-        _userManager=userManager;
-        _context=context;
+        _userManager = userManager;
+        _context = context;
     }
 
     public IActionResult Index()

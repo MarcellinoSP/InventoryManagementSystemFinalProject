@@ -151,7 +151,8 @@
                                                     <span class="status-btn close-btn">Broken</span>
                                                     break;
                                                 default:
-                                                    <span class="status-btn primary-btn">Borrowed</span>
+                                                    <span class="status-btn primary-btn"
+                                                        id="status_@item.BorrowedId">Borrowed</span>
                                                     break;
                                             }
                                         </td>
@@ -198,6 +199,17 @@
                                         }
                                     </tr>
                                 }
+                                @* <script>
+                                @foreach (var item in Model)
+                                {
+                                @if (item.Status == BorrowedItemStatus.StillBorrowed)
+                                {
+                                @Html.Display("let data =") @Html.DisplayFor(modelItem => item.DueDate)
+                                @Html.
+
+                                }
+                                }
+                                </script> *@
                             </tbody>
                         </table>
                     </div>
@@ -205,5 +217,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -200,13 +200,13 @@
               </a>
             </li>
             <li class='nav-item @(route == "LostItems" ? "active" : "")'>
-              <a href="LostItems" class="active">
+              <a asp-controller="LostItems" asp-action="Index" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Lost Items</span>
               </a>
             </li>
             <li class='nav-item @(route == "BrokenItems" ? "active" : "")'>
-              <a href="BrokenItems" class="active">
+              <a asp-controller="BrokenItems" asp-action="Index" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Broken Items</span>
               </a>

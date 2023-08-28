@@ -29,6 +29,9 @@
         </div>
     </div>
 
+    <div class="card-style mb-30 row">
+        <img id="pictureOutput" src="~/uploads/@Model.PicturePath" alt="" style="width: 200px;" />
+    </div>
     <form asp-action="Edit" enctype="multipart/form-data">
         <div class="card-style mb-30 row">
             <div class="input-style-1 mb-2 col-4 d-none">
@@ -108,30 +111,30 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-<script>
-    $(document).ready(function () {
-        $("#CategoryId").change(function () {
-            var categoryId = $(this).val();
-            var subcategoryDropdown = $("#SubCategoryId");
+    <script>
+        $(document).ready(function () {
+            $("#CategoryId").change(function () {
+                var categoryId = $(this).val();
+                var subcategoryDropdown = $("#SubCategoryId");
 
-            // Clear previous options
-            subcategoryDropdown.empty();
+                // Clear previous options
+                subcategoryDropdown.empty();
 
-            // Add default option
-            subcategoryDropdown.append('<option value="">-- Select Subcategory --</option>');
+                // Add default option
+                subcategoryDropdown.append('<option value="">-- Select Subcategory --</option>');
 
-            // Fetch subcategories based on the selected category
-            $.ajax({
-                type: "GET",
-                url: "@Url.Action("GetSubcategoriesByCategory", "Items")",
-                data: { categoryId: categoryId },
-                success: function (data) {
-                    $.each(data, function (index, subcategory) {
-                        subcategoryDropdown.append($('<option></option>').val(subcategory.value).text(subcategory.text));
-                    });
-                }
+                // Fetch subcategories based on the selected category
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetSubcategoriesByCategory", "Items")",
+                    data: { categoryId: categoryId },
+                    success: function (data) {
+                        $.each(data, function (index, subcategory) {
+                            subcategoryDropdown.append($('<option></option>').val(subcategory.value).text(subcategory.text));
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 }
