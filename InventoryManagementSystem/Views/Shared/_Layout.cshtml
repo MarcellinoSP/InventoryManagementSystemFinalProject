@@ -173,7 +173,7 @@
             }
 
             <li class='nav-item @(route == "GoodReceipts" ? "active" : "")'>
-              <a asp-controller="GoodReceipts" asp-action="Index">
+              <a asp-controller="BorrowedItems" asp-action="IndexReturnedItem">
                 <i class="icon mdi mdi-file-refresh-outline"></i>
                 <span class="text-light">Returned Items</span>
               </a>
@@ -200,13 +200,13 @@
               </a>
             </li>
             <li class='nav-item @(route == "LostItems" ? "active" : "")'>
-              <a asp-controller="LostItems" asp-action="Index" class="active">
+              <a asp-controller="BorrowedItems" asp-action="IndexLostItem" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Lost Items</span>
               </a>
             </li>
             <li class='nav-item @(route == "BrokenItems" ? "active" : "")'>
-              <a asp-controller="BrokenItems" asp-action="Index" class="active">
+              <a asp-controller="BorrowedItems" asp-action="IndexBrokenItem" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Broken Items</span>
               </a>

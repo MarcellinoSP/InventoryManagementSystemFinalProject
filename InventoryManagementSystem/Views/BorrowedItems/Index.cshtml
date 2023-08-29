@@ -152,7 +152,7 @@
                                                     break;
                                                 default:
                                                     <span class="status-btn primary-btn"
-                                                        id="status_@item.BorrowedId">Borrowed</span>
+                                                        id="status_@item.BorrowedId">@item.RemainingDays day</span>
                                                     break;
                                             }
                                         </td>
@@ -190,8 +190,8 @@
                                                 {
                                                     <div class="action">
                                                         <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-controller="GoodReceipts" asp-action="Create"
-                                                            asp-route-borrowedId="@item.BorrowedId">
+                                                            asp-controller="BorrowedItems" asp-action="Edit"
+                                                            asp-route-Id="@item.BorrowedId">
                                                             <i class="mdi mdi-package-down fs-4"></i> Returned
                                                         </a>
                                                     </div>

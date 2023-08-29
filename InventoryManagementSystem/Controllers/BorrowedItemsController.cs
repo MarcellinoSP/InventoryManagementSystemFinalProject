@@ -14,7 +14,7 @@ using System.Globalization;
 
 namespace InventoryManagementSystem.Controllers
 {
-    public class BorrowedItemsController : Controller
+    public partial class BorrowedItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvirontment;
@@ -51,20 +51,8 @@ namespace InventoryManagementSystem.Controllers
                 {
                     borrowedItem.Status = BorrowedItemStatus.DoneAndLost;
                     _context.Update(borrowedItem);
-                    var lostItem = new LostItem
-                    {
-                        ItemId = borrowedItem.ItemId,
-                        UserId = borrowedItem.UserId,
-                        User = borrowedItem.User,
-                        CreateAt = DateTime.Now,
-                        LostDate = DateTime.Now,
-                        NoteItemLost = "Item lost due to overdue borrowing",
-                        BorrowedId = borrowedItem.BorrowedId,
-                        Status = LostItemStatus.Active
-                    };
-                    _context.LostItems.Add(lostItem);
                 }
-                // borrowedItem.RemainingDays = (int)(borrowedItem.DueDate - DateTime.Now).TotalDays;
+                borrowedItem.RemainingDays = (int)(borrowedItem.DueDate - DateTime.Now).TotalDays;
             }
             await _context.SaveChangesAsync();
             return View(allBorrowedItems);
