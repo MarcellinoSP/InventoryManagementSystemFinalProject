@@ -8,17 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Data;
 using InventoryManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace InventoryManagementSystem.Controllers
 {
-	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin, Vendor")]
 	public class ReStockItemController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<User> _userManager;
 
-		public ReStockItemController(ApplicationDbContext context)
+		public ReStockItemController(ApplicationDbContext context, UserManager<User> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: ReStockItem
@@ -26,7 +29,15 @@ namespace InventoryManagementSystem.Controllers
 		{
 			var applicationDbContext = _context.ReStockItem
 										.Include(r => r.ItemConsumable);
-			return View(await applicationDbContext.ToListAsync());
+			var user = await _userManager.GetUserAsync(User);
+			var model = new ReStockViewModel
+			{
+				Items = await applicationDbContext.ToListAsync(),
+				VendorId = user.HandleSupplierId
+			};
+			
+			// return View(await applicationDbContext.ToListAsync());
+			return View(model);
 		}
 
 		// GET: ReStockItem/Details/5
@@ -169,7 +180,7 @@ namespace InventoryManagementSystem.Controllers
 			}
 			
 			var itemConsumable = reStockItem.ItemConsumable;
-			itemConsumable.Quantity += reStockItem.Quantity;
+			itemConsumable.Quantity += reStockItem.AcceptedQuantity;
 			reStockItem.Status = ReStockStatus.Received;
 			
 			int changes = _context.SaveChanges();
@@ -216,6 +227,46 @@ namespace InventoryManagementSystem.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
+		public async Task<IActionResult> AcceptRequest(int? id)
+		{
+			if (id == null || _context.ReStockItem == null)
+			{
+				return NotFound();
+			}
+
+			var reStockItem = await _context.ReStockItem
+				.Include(r => r.ItemConsumable)
+				.FirstOrDefaultAsync(m => m.ReStockID == id);
+			if (reStockItem == null)
+			{
+				return NotFound();
+			}
+			// ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "Name", reStockItem.ItemConsumableId);
+			return View(reStockItem);
+		}
+		
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> AcceptRequest(ReStockItem newStock, int? id)
+		{
+			if (id == null || _context.ReStockItem == null)
+			{
+				return NotFound();
+			}
+			var reStockItem = await _context.ReStockItem
+				.Include(r => r.ItemConsumable)
+				.FirstOrDefaultAsync(m => m.ReStockID == id);
+				
+			if (reStockItem == null)
+			{
+				return NotFound();
+			}
+			reStockItem.AcceptedQuantity = newStock.AcceptedQuantity;
+			reStockItem.Status = ReStockStatus.WaitingAdminApproval;
+			var changes = _context.SaveChanges();
+			return RedirectToAction(nameof(Index));
+		}
+		
 		private bool ReStockItemExists(int id)
 		{
 		  return (_context.ReStockItem?.Any(e => e.ReStockID == id)).GetValueOrDefault();

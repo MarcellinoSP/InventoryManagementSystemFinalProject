@@ -25,7 +25,7 @@ namespace InventoryManagementSystem.Models;
     public virtual Supplier? Supplier { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive number !")]
-    public int Quantity {get; set;}
+    public int? Quantity {get; set;}
 }
 
 public class ItemConsumableViewModel : ItemConsumable

@@ -14,9 +14,9 @@ namespace InventoryManagementSystem.Migrations
                 name: "FK_ReStockItem_Suppliers_SupplierId",
                 table: "ReStockItem");
 
-            migrationBuilder.DropIndex(
-                name: "IX_ReStockItem_SupplierId",
-                table: "ReStockItem");
+            // migrationBuilder.DropIndex(
+            //     name: "IX_ReStockItem_SupplierId",
+            //     table: "ReStockItem");
 
             migrationBuilder.DropColumn(
                 name: "SupplierId",

@@ -15,6 +15,7 @@ namespace InventoryManagementSystem.Models
 		public string FirstName { get; set; }
 		[Required]
 		public string LastName { get; set; }
+		public int? HandleSupplierId {get; set;}
 		
 		// public string? PicturePath {get; set;}
 	}
