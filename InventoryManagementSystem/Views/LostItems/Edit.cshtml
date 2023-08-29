@@ -39,38 +39,39 @@
 
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="ItemId">Item ID</label>
-                <input asp-for="ItemId" placeholder="ItemId" readonly/>
+                <input asp-for="ItemId" placeholder="ItemId" readonly />
                 <span asp-validation-for="ItemId" class="text-danger"></span>
             </div>
             <div class="input-style-1 mb-2 col-4">
                 <label>User Email</label>
-                <input  value="@Model.User.Email" placeholder="NamaItem" readonly/>
+                <input value="@Model.User.Email" placeholder="NamaItem" readonly />
                 <input type="hidden" asp-for="UserId" placeholder="ItemId" />
             </div>
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="CreateAt">Create At</label>
-                <input asp-for="CreateAt" placeholder="CreateAt" readonly/>
+                <input asp-for="CreateAt" placeholder="CreateAt" readonly />
                 <span asp-validation-for="CreateAt" class="text-danger"></span>
             </div>
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="LostDate">Lost Date</label>
-                <input asp-for="LostDate" placeholder="Lost Date" readonly/>
+                <input asp-for="LostDate" placeholder="Lost Date" readonly />
                 <span asp-validation-for="LostDate" class="text-danger"></span>
             </div>
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="NoteItemLost">Note Item Lost</label>
-                <input asp-for="NoteItemLost" placeholder="NoteItemLost" readonly/>
+                <input asp-for="NoteItemLost" placeholder="NoteItemLost" readonly />
                 <span asp-validation-for="NoteItemLost" class="text-danger"></span>
             </div>
 
             <div class="input-style-1 mb-2 col-4 d-none">
                 <label asp-for="BorrowedId">Borrowed Id</label>
-                <input asp-for="BorrowedId" placeholder="BorrowedId" readonly/>
+                <input asp-for="BorrowedId" placeholder="BorrowedId" readonly />
                 <span asp-validation-for="BorrowedId" class="text-danger"></span>
             </div>
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="Status">Status Lost</label>
-                <select id="statusItemLost" asp-for="Status" class="form-control selectpicker" data-style="btn-primary" data-width="100%">
+                <select id="statusItemLost" asp-for="Status" class="form-control selectpicker" data-style="btn-primary"
+                    data-width="100%">
                     <option value="">-- Select Status --</option>
                     @foreach (var item in Enum.GetValues(typeof(LostItemStatus)))
                     {
@@ -99,7 +100,8 @@
             <div class="card-style mb-30 row">
                 <div class="form-group">
                     @* <label for="recipient">Recipient:</label> *@
-                    <input type="hidden" class="form-control" id="recipient" name="recipient" value="@Model.User.Email" required>
+                    <input type="hidden" class="form-control" id="recipient" name="recipient" value="@Model.User.Email"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="subject">Subject:</label>
@@ -112,7 +114,8 @@
                 <div class="form-group">
                     <label for="attachment">Attachment:</label>
                     <div class="custom-file">
-                        <input type="file" class="form-control-input" id="attachment" name="attachment" style="border: 1px solid #ced4da;">
+                        <input type="file" class="form-control-input" id="attachment" name="attachment"
+                            style="border: 1px solid #ced4da;">
                     </div>
                 </div>
                 <div class="mt-2 d-flex gap-2">
@@ -193,17 +196,17 @@
     }
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#parentNoteItemFound').hide()
-            
 
-            
-            $('#statusItemLost').change(function() {
+
+
+            $('#statusItemLost').change(function () {
                 let selected = $(this).val();
 
-                if(selected == "Active" || selected == ""){
+                if (selected == "Active" || selected == "") {
                     $('#parentNoteItemFound').hide()
-                }else{
+                } else {
                     $('#parentNoteItemFound').show()
                 }
             })
