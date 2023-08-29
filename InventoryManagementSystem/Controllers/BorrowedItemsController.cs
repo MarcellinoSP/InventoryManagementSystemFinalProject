@@ -254,6 +254,11 @@ namespace InventoryManagementSystem.Controllers
                     originalBorrowedItem.DueDate = borrowedItemViewModel.DueDate;
                     originalBorrowedItem.NoteBorrowed = borrowedItemViewModel.NoteBorrowed;
                     originalBorrowedItem.Status = borrowedItemViewModel.Status;
+                    if (originalBorrowedItem.Status == BorrowedItemStatus.DoneBorrowing)
+                    {
+                        var thisItem = await _context.Items.FindAsync(borrowedItemViewModel.ItemId);
+                        thisItem.Availability = true;
+                    }
 
                     _context.Update(originalBorrowedItem);
                     await _context.SaveChangesAsync();
