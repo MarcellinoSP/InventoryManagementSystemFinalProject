@@ -61,7 +61,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromSeconds(5);
+	options.IdleTimeout = TimeSpan.FromMinutes(5);
 	options.Cookie.IsEssential = true;
 });
 
