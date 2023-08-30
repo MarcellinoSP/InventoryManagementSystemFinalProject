@@ -40,6 +40,21 @@ namespace InventoryManagementSystem.Controllers
 			return View(model);
 		}
 
+		public async Task<IActionResult> IndexAcceptedRequest()
+		{
+			var applicationDbContext = _context.ReStockItem
+										.Include(r => r.ItemConsumable);
+			var user = await _userManager.GetUserAsync(User);
+			var model = new ReStockViewModel
+			{
+				Items = await applicationDbContext.ToListAsync(),
+				VendorId = user.HandleSupplierId
+			};
+			
+			// return View(await applicationDbContext.ToListAsync());
+			return View(model);
+		}
+		
 		// GET: ReStockItem/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{

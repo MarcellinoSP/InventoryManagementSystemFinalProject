@@ -52,17 +52,17 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 //setting sesion on 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.Cookie.Name = ".AspNetCore.Identity.Application";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+	options.Cookie.Name = ".AspNetCore.Identity.Application";
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 	options.ReturnUrlParameter = "/Home";
-    options.SlidingExpiration = true;
+	options.SlidingExpiration = true;
 }
 );
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(5);
-    options.Cookie.IsEssential = true;
+	options.IdleTimeout = TimeSpan.FromSeconds(5);
+	options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
@@ -74,7 +74,7 @@ SetVendorOnDatabase.CreateVendorDataOnDatabase(app);
 
 app.UseCookiePolicy(new CookiePolicyOptions()
 {
-    MinimumSameSitePolicy = SameSiteMode.Lax
+	MinimumSameSitePolicy = SameSiteMode.Lax
 });
 
 // Configure the HTTP request pipeline.
@@ -100,5 +100,4 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
 app.Run();
