@@ -18,7 +18,9 @@ public class ReStockItem
 	public int ItemConsumableId { get; set; }
 	public virtual ItemConsumable? ItemConsumable { get; set; }
 	public string? KodeItemConsumable { get; set; }
-	
+	public int? SupplierId { get; set; }
+
+
 	[Required]
 	[DataType(DataType.Date)]
 	public DateTime RequestStockDate { get; set; } = DateTime.Now;
