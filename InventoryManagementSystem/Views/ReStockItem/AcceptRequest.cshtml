@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="card-style mb-row 30">
-        <form asp-action="Received">
+        <form asp-action="AcceptRequest">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.ItemConsumable.Name)
             </dt>
@@ -43,16 +43,10 @@
                 @Html.DisplayFor(model => model.RequestStockDate)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Quantity)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Quantity)
-            </dd>
-            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.AcceptedQuantity)
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AcceptedQuantity)
+            <dd class="col-md-4">
+                <input asp-for="AcceptedQuantity" class="form-control" min="0" max="@Model.Quantity" />
             </dd>
             <div class="form-group">
                 <div class="col-12 mt-10 d-flex gap-2">

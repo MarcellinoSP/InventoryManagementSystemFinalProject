@@ -19,7 +19,7 @@ namespace InventoryManagementSystem.Data
         //pembuatan/insert data Role yang sudah ditentukan ke tabel ASPNET ROLE di database
         static async Task SetRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = { "Admin", "Employee" };
+            string[] roles = { "Admin", "Employee", "Vendor" };
 
             foreach (var role in roles)
             {

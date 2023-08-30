@@ -129,7 +129,6 @@ namespace InventoryManagementSystem.Controllers
 					ItemConsumableId = (int)itemConsumableId!,
 					UserId = _userManager.GetUserId(User)!,
 					RequestConsumeDate = DateTime.Now,
-
 				};
 
 				return View(requestItemConsumable);

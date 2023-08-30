@@ -54,6 +54,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.Cookie.Name = ".AspNetCore.Identity.Application";
 	options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+	options.ReturnUrlParameter = "/Home";
 	options.SlidingExpiration = true;
 }
 );
@@ -67,7 +68,9 @@ builder.Services.AddSession(options =>
 var app = builder.Build();
 //untuk set awal data role dan akun admin agar nantinya bisa di pisahkan logic webnya
 SetRoleOnDatabase.CreateAdminEmployeeRole(app);
+//Membuat akun admin & vendor
 SetAdminOnDatabase.CreateAdminDataOnDatabase(app);
+SetVendorOnDatabase.CreateVendorDataOnDatabase(app);
 
 app.UseCookiePolicy(new CookiePolicyOptions()
 {
@@ -97,5 +100,4 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
 app.Run();

@@ -25,7 +25,7 @@ namespace InventoryManagementSystem.Controllers
 			_context = context;
 			_userManager = userManager;
 		}
-		
+
 		// GET: OrderItems
 		public async Task<IActionResult> Index(string? SearchString)
 		{
@@ -47,7 +47,7 @@ namespace InventoryManagementSystem.Controllers
 			return View(allOrderItems);
 
 		}
-		
+
 		private async Task<List<OrderItemConsumable>> GetAllDataFromDatabase()
 		{
 			return await _context.OrderItemsConsumable
@@ -56,7 +56,7 @@ namespace InventoryManagementSystem.Controllers
 			.ToListAsync();
 			// show all rows in items table
 		}
-		
+
 		public async Task<List<OrderItemConsumable>> Search(string searchString)
 		{
 			var orderItem = await _context.OrderItemsConsumable
@@ -77,7 +77,7 @@ namespace InventoryManagementSystem.Controllers
 
 			return orderItem;
 		}
-		
+
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.OrderItemsConsumable == null)
@@ -96,7 +96,7 @@ namespace InventoryManagementSystem.Controllers
 
 			return View(orderItem);
 		}
-		
+
 		// GET: OrderItems/Create
 		public IActionResult Create(int requestConsumableId, RequestItemConsumableStatus status)
 		{
@@ -111,7 +111,6 @@ namespace InventoryManagementSystem.Controllers
 				return NotFound();
 			}
 
-
 			var orderItem = new OrderItemConsumable()
 			{
 				RequestItemConsumable = requestItemConsumable,
@@ -125,22 +124,21 @@ namespace InventoryManagementSystem.Controllers
 				Quantity = requestItemConsumable.Quantity
 			};
 
-
-
 			ViewData["statusReqAction"] = status;
 
 			// ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem");
 			// ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
 			return View(orderItem);
 		}
-		
-		 // POST: OrderItems/Create
+
+		// POST: OrderItems/Create
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("OrderConsumableId,RequestConsumableId,ItemConsumableId,UserId,CreateAt,ConsumeDateApproved,NoteDonePickUp,NoteWaitingPickUp,Quantity,Status")] OrderItemConsumable orderItemConsumable)
 		{
+			Console.WriteLine("Model State: " + ModelState.IsValid);
 			if (ModelState.IsValid)
 			{
 				//kode untuk mencari data request item berdasarkan id yang ditentukan
@@ -175,49 +173,49 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", orderItemConsumable.UserId);
 			return View(orderItemConsumable);
 		}
-		
+
 		private bool OrderItemExists(int id)
 		{
 			return (_context.OrderItemsConsumable?.Any(e => e.OrderConsumableId == id)).GetValueOrDefault();
 		}
-		
-		  [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult ExportToCsv(string searchString)
-        {
-            var orderItems = _context.OrderItemsConsumable
-                .Include(r => r.ItemConsumable)
-                .Include(r => r.User)
-                .ToList();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                orderItems = orderItems
-                    .Where(r => r.ItemConsumable != null && r.ItemConsumable.Name.ToLower().Contains(searchString.ToLower()))
-                    .ToList();
-            }
+		[HttpGet]
+		[Authorize(Roles = "Admin")]
+		public IActionResult ExportToCsv(string searchString)
+		{
+			var orderItems = _context.OrderItemsConsumable
+				.Include(r => r.ItemConsumable)
+				.Include(r => r.User)
+				.ToList();
 
-            // Membuat StringWriter untuk menulis data CSV
-            using (var sw = new StringWriter())
-            {
-                using (var csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture))
-                {
-                    // Menulis header kolom
-                    csvWriter.WriteHeader<RequestItem>();
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				orderItems = orderItems
+					.Where(r => r.ItemConsumable != null && r.ItemConsumable.Name.ToLower().Contains(searchString.ToLower()))
+					.ToList();
+			}
 
-                    csvWriter.NextRecord();
+			// Membuat StringWriter untuk menulis data CSV
+			using (var sw = new StringWriter())
+			{
+				using (var csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture))
+				{
+					// Menulis header kolom
+					csvWriter.WriteHeader<RequestItem>();
 
-                    // Menulis data baris
-                    csvWriter.WriteRecords(orderItems);
-                }
+					csvWriter.NextRecord();
 
-                // Mengatur header respons HTTP untuk file CSV
-                Response.Headers.Add("Content-Disposition", "attachment; filename=request_Consumeditems.csv");
-                Response.ContentType = "text/csv";
+					// Menulis data baris
+					csvWriter.WriteRecords(orderItems);
+				}
 
-                // Menulis data CSV ke respons HTTP
-                return Content(sw.ToString());
-            }
+				// Mengatur header respons HTTP untuk file CSV
+				Response.Headers.Add("Content-Disposition", "attachment; filename=request_Consumeditems.csv");
+				Response.ContentType = "text/csv";
+
+				// Menulis data CSV ke respons HTTP
+				return Content(sw.ToString());
+			}
 		}
 	}
 }
