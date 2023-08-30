@@ -5,6 +5,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
+  @* var action = ViewContext.RouteData.Values["Action"].ToString() ?? "Index"; *@
   var route = ViewContext.RouteData.Values["Controller"]?.ToString();
   var user = await UserManager.GetUserAsync(User);
   var firstname = user?.FirstName;
@@ -141,8 +142,8 @@
               </a>
             </li> *@
 
-            <li class='nav-item nav-item-has-children @(route == "BorrowedItems" || route == "ConsumedItems"? "active" : "")'>
-              <a href="#0" class='@(route != "BorrowedItems" || route == "ConsumedItems"? "collapsed" : "")' data-bs-toggle="collapse"
+            <li class='nav-item nav-item-has-children @(route == "BorrowedItems" || route == "ConsumedItems" ? "active" : "")'>
+              <a href="#0" class='@(route == "BorrowedItems" || route == "ConsumedItems" ? "collapsed" : "")' data-bs-toggle="collapse"
                 data-bs-target="#ddmenu_activerequest" aria-controls="ddmenu_activerequest"
                 aria-label="Toggle navigation">
                 <i class="icon mdi mdi-file-clock-outline"></i>
@@ -164,7 +165,7 @@
             
             if (User.IsInRole("Admin"))
             {
-              <li class='nav-item @(route == "ReStockConsumableItem" ? "active" : "")'>
+              <li class='nav-item @(route == "ReStockItem" ? "active" : "")'>
                 <a asp-controller="ReStockItem" asp-action="Index">
                   <i class="icon mdi mdi-file-send-outline"></i>
                     <span class="text-light">Order Consumable Items</span>
@@ -172,8 +173,8 @@
               </li>
             }
 
-            <li class='nav-item @(route == "GoodReceipts" ? "active" : "")'>
-              <a asp-controller="GoodReceipts" asp-action="Index">
+            <li class='nav-item @((route == "BorrowedItems") ? "active" : "")'>
+              <a asp-controller="BorrowedItems" asp-action="IndexReturnedItem">
                 <i class="icon mdi mdi-file-refresh-outline"></i>
                 <span class="text-light">Returned Items</span>
               </a>
@@ -199,14 +200,14 @@
                 <span class="text-light">Suppliers</span>
               </a>
             </li>
-            <li class='nav-item @(route == "LostItems" ? "active" : "")'>
-              <a asp-controller="LostItems" asp-action="Index" class="active">
+            <li class='nav-item @((route == "BorrowedItems" ) ? "active" : "")'>
+              <a asp-controller="BorrowedItems" asp-action="IndexLostItem" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Lost Items</span>
               </a>
             </li>
-            <li class='nav-item @(route == "BrokenItems" ? "active" : "")'>
-              <a asp-controller="BrokenItems" asp-action="Index" class="active">
+            <li class='nav-item @((route == "BorrowedItems") ? "active" : "")'>
+              <a asp-controller="BorrowedItems" asp-action="IndexBrokenItem" class="active">
                 <i class="icon mdi mdi-file-hidden"></i>
                 <span class="text-light">Broken Items</span>
               </a>

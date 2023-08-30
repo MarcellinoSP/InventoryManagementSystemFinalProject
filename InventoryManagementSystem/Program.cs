@@ -52,16 +52,16 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 //setting sesion on 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.Cookie.Name = ".AspNetCore.Identity.Application";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-    options.SlidingExpiration = true;
+	options.Cookie.Name = ".AspNetCore.Identity.Application";
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+	options.SlidingExpiration = true;
 }
 );
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(5);
-    options.Cookie.IsEssential = true;
+	options.IdleTimeout = TimeSpan.FromMinutes(5);
+	options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
@@ -71,7 +71,7 @@ SetAdminOnDatabase.CreateAdminDataOnDatabase(app);
 
 app.UseCookiePolicy(new CookiePolicyOptions()
 {
-    MinimumSameSitePolicy = SameSiteMode.Lax
+	MinimumSameSitePolicy = SameSiteMode.Lax
 });
 
 // Configure the HTTP request pipeline.

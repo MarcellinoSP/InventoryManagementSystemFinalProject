@@ -104,7 +104,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                       
+
                                         <td>
                                             <a asp-action="Details" asp-route-id="@item.OrderId">
                                                 <p class="text-primary">@Html.DisplayFor(modelItem => item.Item!.Name)</p>
@@ -140,7 +140,7 @@
                                                     <span class="status-btn success-btn">Done Pick Up</span>
                                                     break;
                                                 default:
-                                                    <span class="status-btn close-btn">Cancelled by Sistem (late for pick up)</span>
+                                                    <span class="status-btn close-btn">Cancelled</span>
                                                     break;
                                             }
                                         </td>

@@ -51,7 +51,7 @@
         </div>
     </div>
 
-     <div class="tables-wrapper">
+    <div class="tables-wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card-style mb-30">
@@ -104,10 +104,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                       
+
                                         <td>
                                             <a asp-action="Details" asp-route-id="@item.OrderConsumableId">
-                                                <p class="text-primary">@Html.DisplayFor(modelItem => item.ItemConsumable!.Name)</p>
+                                                <p class="text-primary">@Html.DisplayFor(modelItem =>
+                                                item.ItemConsumable!.Name)</p>
                                             </a>
 
                                         </td>
@@ -144,11 +145,12 @@
                                                     <span class="status-btn success-btn">Done Pick Up</span>
                                                     break;
                                                 default:
-                                                    <span class="status-btn close-btn">Cancelled by Sistem (late for pick up)</span>
+                                                    <span class="status-btn close-btn">Cancelled</span>
                                                     break;
                                             }
                                         </td>
-                                        @if (User.IsInRole("Admin") && item.Status == OrderItemConsumableStatus.WaitingPickUp)
+                                        @if (User.IsInRole("Admin") && item.Status ==
+                                       OrderItemConsumableStatus.WaitingPickUp)
                                         {
                                             <td style="white-space: nowrap;">
                                                 <div class="action gap-3">

@@ -25,20 +25,20 @@ public class HomeController : Controller
         var userId = _userManager.GetUserId(User);
         var totalRequestsItems = _context.RequestItems.Where(c => c.UserId == userId).Count();
         var totalOrderItems = _context.OrderItems.Where(c => c.UserId == userId).Count();
-        var totalBorrwedItems = _context.BorrowedItems.Where(c => c.UserId == userId).Count();
+        var totalBorrowable = _context.BorrowedItems.Where(c => c.UserId == userId).Count();
         var totalGoodReceipt = _context.GoodReceipts.Where(c => c.UserId == userId).Count();
 
         if (User.IsInRole("Admin"))
         {
             totalRequestsItems = _context.RequestItems.Count();
             totalOrderItems = _context.OrderItems.Count();
-            totalBorrwedItems = _context.BorrowedItems.Count();
+            totalBorrowable = _context.BorrowedItems.Count();
             totalGoodReceipt = _context.GoodReceipts.Count();
         }
 
         ViewBag.TotalRequestsBorrow = totalRequestsItems;
         ViewBag.TotalOrderItems = totalOrderItems;
-        ViewBag.TotalBorrwedItems = totalBorrwedItems;
+        ViewBag.totalBorrowable = totalBorrowable;
         ViewBag.TotalGoodReceipt = totalGoodReceipt;
         return View();
     }

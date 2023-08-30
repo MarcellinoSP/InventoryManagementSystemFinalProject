@@ -115,8 +115,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 ">
-                <section>
-                    <form id="account" method="post" class="center">
+                <section class="center">
+                    <form id="account" method="post">
                         <div style="display:flex; justify-content: center">
                             <img class="me-2" src="~/images/logo/logo1.png"
                                 style="width:350px; margin:0 !important;border:none;">
@@ -142,23 +142,12 @@
                                 @Html.DisplayNameFor(m => m.Input.RememberMe)
                             </label>
                         </div>
-                        <div>
-                            <div>
+                        <div class="row">
+                            <div class="col-12 mb-2">
                                 <button id="login-submit" type="submit" class="my-button">Log in</button>
                             </div>
-                            <br>
-                            <p>
-                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Not a member? Sign up
-                                    now!</a>
-                            </p>
                         </div>
                     </form>
-                </section>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-2">
-                <section>
                     @{
                         if ((Model.ExternalLogins?.Count ?? 0) == 0)
                         {
@@ -174,21 +163,38 @@
                         else
                         {
                             <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
-                                method="post" class="google">
+                                method="post" class="col-12">
                                 <div>
-                                    <p>
+                                    <p class="ml-4">
                                         @foreach (var provider in Model.ExternalLogins!)
                                         {
-                                            <button type="submit" class="my-button" name="provider" value="@provider.Name" title="Log in using your
-                                                            @provider.DisplayName account">@provider.DisplayName</button>
+                                            <button type="submit" class="my-button d-flex justify-content-center" name="provider"
+                                                value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                <img src="/assets/ic_google.png" class="align-self-center"
+                                                    style="width: 24px !important; height: 24px !important; margin-right: .5rem; border: none !important">
+                                                @provider.DisplayName
+                                            </button>
                                         }
                                     </p>
                                 </div>
                             </form>
                         }
                     }
+                    <div class="row">
+                        <p class="col-12 mt-2">
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Not a member? Sign up
+                                now!</a>
+                        </p>
+                    </div>
                 </section>
             </div>
+            @* <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+            <section>
+
+            </section>
+            </div>
+            </div> *@
         </div>
     </div>
     @* <div class="bottom-bar"></div> *@
