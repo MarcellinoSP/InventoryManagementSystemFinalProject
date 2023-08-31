@@ -73,7 +73,7 @@
                                     </th>
                                     <th>
                                         <h6>Item Code</h6>
-                                    <th>
+                                    </th>
                                     @if(User.IsInRole("Admin"))
                                     {
                                         <th>
@@ -83,20 +83,9 @@
                                     <th>
                                         <h6>Pickup Date</h6>
                                     </th>
-
-                                     @* <th>
-                                        <h6>Approved Due Date</h6>
-                                    </th> *@
-
                                      <th>
                                         <h6 class="status">Status</h6>
                                     </th>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <th>
-                                            <h6>Action</h6>
-                                        </th>
-                                    }
                                 </tr>
                                 <!-- end table row-->
                             </thead>
@@ -130,9 +119,6 @@
                                             <p>@Html.DisplayFor(modelItem => item.CreateAt)</p>
                                         </td>
 
-                                        @* <td>
-                                            <p>@Html.DisplayFor(modelItem => item.DueDate)</p>
-                                        </td> *@
                                         <td class="pe-2 text_center" style="white-space: nowrap;">
                                             @switch (item.Status)
                                             {

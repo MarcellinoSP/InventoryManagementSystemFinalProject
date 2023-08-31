@@ -14,13 +14,13 @@ using System.Globalization;
 
 namespace InventoryManagementSystem.Controllers;
 
-	public class ConsumedItemsController : Controller
+	public class ConsumableItemsController : Controller
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly IWebHostEnvironment _webHostEnvirontment;
 		private readonly UserManager<User> _userManager;
 
-		public ConsumedItemsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, UserManager<User> userManager)
+		public ConsumableItemsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, UserManager<User> userManager)
 		{
 			_context = context;
 			_webHostEnvirontment = hostEnvironment;
@@ -105,12 +105,12 @@ namespace InventoryManagementSystem.Controllers;
 		}
 		
 		//GET : ConsumableItems/Create
-		public IActionResult Create(int orderId)
-		
+		public IActionResult Create(int OrderConsumableId)
 		{
+			Console.WriteLine(OrderConsumableId);
 			var orderItem = _context.OrderItemsConsumable
 			.Include(c => c.ItemConsumable).Include(d => d.User)
-			.Where(d => d.OrderConsumableId == orderId)
+			.Where(d => d.OrderConsumableId == OrderConsumableId)
 			.FirstOrDefault();
 			
 			if(orderItem == null)

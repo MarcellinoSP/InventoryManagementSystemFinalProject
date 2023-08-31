@@ -116,15 +116,14 @@ namespace InventoryManagementSystem.Controllers
 			{
 				RequestItemConsumable = requestItemConsumable,
 				RequestId = requestItemConsumable.RequestConsumableId,
-				ItemConsumableId = requestItemConsumable.ItemConsumableId,
 				ItemConsumable = requestItemConsumable.ItemConsumable,
-				UserId = requestItemConsumable.UserId,
+				ItemConsumableId = requestItemConsumable.ItemConsumableId,
 				User = requestItemConsumable.User,
+				UserId = requestItemConsumable.UserId,
 				CreateAt = DateTime.Now,
-				ConsumeDateApproved = requestItemConsumable.RequestConsumeDate,
-				Quantity = requestItemConsumable.Quantity
+				Quantity = requestItemConsumable.Quantity,
+				ConsumeDateApproved = requestItemConsumable.RequestConsumeDate
 			};
-			Console.WriteLine(orderItemConsumable.ItemConsumable.Name);
 			ViewData["statusReqAction"] = status;
 
 			// ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem");
@@ -134,12 +133,30 @@ namespace InventoryManagementSystem.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(OrderItemConsumable orderItemConsumable)
+		public async Task<IActionResult> Create([Bind("OrderConsumableId,RequestId,ItemConsumableId,UserId,CreateAt,ConsumeDateApproved,NoteDonePickUp,NoteWaitingPickUp,Quantity,Status")] OrderItemConsumable orderItemConsumable)
 		{
-			// Console.WriteLine($"Item Id: {orderItemConsumable.ItemConsumable.Name}");
-			// Console.WriteLine($"Item Qty: {orderItemConsumable.Quantity}");
+			var requestItemConsumable = _context.RequestItemsConsumable
+										.Include(c => c.User)
+										.Include(c => c.ItemConsumable)
+										.Where(d => d.RequestConsumableId == orderItemConsumable.RequestId)
+										.FirstOrDefault();
 
-			return View(orderItemConsumable);
+			if (requestItemConsumable != null)
+			{
+				Console.WriteLine($"Request ID: {orderItemConsumable.Quantity}");
+				_context.Add(orderItemConsumable);
+				await _context.SaveChangesAsync();
+
+				requestItemConsumable.Status = RequestItemConsumableStatus.Approved;
+				requestItemConsumable.OrderItemConsumableId = orderItemConsumable.OrderConsumableId;
+				_context.Update(requestItemConsumable);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+
+			ViewData["ItemId"] = new SelectList(_context.ItemsConsumable, "IdItem", "KodeItem", orderItemConsumable.ItemConsumableId);
+			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", orderItemConsumable.UserId);
+			return View(requestItemConsumable);
 		}
 
 		private bool OrderItemExists(int id)
