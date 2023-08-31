@@ -98,6 +98,7 @@ namespace InventoryManagementSystem.Controllers
 		}
 
 		// GET: OrderItems/Create
+
 		public IActionResult Create(int requestConsumableId, RequestItemConsumableStatus status)
 		{
 			var requestItemConsumable = _context.RequestItemsConsumable
@@ -111,7 +112,7 @@ namespace InventoryManagementSystem.Controllers
 				return NotFound();
 			}
 
-			var orderItem = new OrderItemConsumable()
+			var orderItemConsumable = new OrderItemConsumable()
 			{
 				RequestItemConsumable = requestItemConsumable,
 				RequestId = requestItemConsumable.RequestConsumableId,
@@ -123,54 +124,21 @@ namespace InventoryManagementSystem.Controllers
 				ConsumeDateApproved = requestItemConsumable.RequestConsumeDate,
 				Quantity = requestItemConsumable.Quantity
 			};
-
+			Console.WriteLine(orderItemConsumable.ItemConsumable.Name);
 			ViewData["statusReqAction"] = status;
 
 			// ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem");
 			// ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-			return View(orderItem);
+			return View(orderItemConsumable);
 		}
 
-		// POST: OrderItems/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("OrderConsumableId,RequestConsumableId,ItemConsumableId,UserId,CreateAt,ConsumeDateApproved,NoteDonePickUp,NoteWaitingPickUp,Quantity,Status")] OrderItemConsumable orderItemConsumable)
+		public async Task<IActionResult> Create(OrderItemConsumable orderItemConsumable)
 		{
-			Console.WriteLine("Model State: " + ModelState.IsValid);
-			if (ModelState.IsValid)
-			{
-				//kode untuk mencari data request item berdasarkan id yang ditentukan
-				var requestItemConsumable = _context.RequestItemsConsumable
-				.Include(c => c.ItemConsumable)
-				.Include(d => d.User)
-				.Where(d => d.RequestConsumableId == orderItemConsumable.RequestId).FirstOrDefault();
+			// Console.WriteLine($"Item Id: {orderItemConsumable.ItemConsumable.Name}");
+			// Console.WriteLine($"Item Qty: {orderItemConsumable.Quantity}");
 
-				if (requestItemConsumable == null)
-				{
-					return NotFound();
-				}
-
-				_context.Add(orderItemConsumable); //untuk save order di database
-				await _context.SaveChangesAsync(); //untuk save order di database
-
-				//kode untuk ganti status di req item yang sudah di approved
-				requestItemConsumable.Status = RequestItemConsumableStatus.Approved;//ubah status jadi approved
-				requestItemConsumable.OrderItemConsumableId = orderItemConsumable.OrderConsumableId;//tambah data orderId di object
-				_context.Update(requestItemConsumable);//update entitas reqitem ke database
-				await _context.SaveChangesAsync();//pasangan dg atasnya. update entitas reqitem ke database
-
-				//Kurang Quantity di ItemConsumable
-				// var itemConsumable2 = await _context.ItemsConsumable.FindAsync(requestItemConsumable.ItemConsumableId);
-				// itemConsumable2.Quantity -= requestItemConsumable.Quantity;
-				// _context.Update(itemConsumable2);
-				// await _context.SaveChangesAsync();
-
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["ItemId"] = new SelectList(_context.ItemsConsumable, "IdItem", "KodeItem", orderItemConsumable.ItemConsumableId);
-			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", orderItemConsumable.UserId);
 			return View(orderItemConsumable);
 		}
 

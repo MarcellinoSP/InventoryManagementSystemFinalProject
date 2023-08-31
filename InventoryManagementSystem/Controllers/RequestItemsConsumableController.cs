@@ -268,7 +268,6 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "KodeItemConsumable", requestItemConsumable.ItemConsumableId);
 			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", requestItemConsumable.UserId);
 			return View(requestItemConsumable);
-
 		}
 
 		[HttpPost]
@@ -281,18 +280,21 @@ namespace InventoryManagementSystem.Controllers
 			{
 				return NotFound();
 			}
-
-			if (ModelState.IsValid)
+			
+			if (itemConsumable != null)
 			{
 				try
 				{ //di dalam try karena default code generator ada di sini. baiknya, jika database tb tb disconnect, maka bisa nangkep error
 					itemConsumable.Availability = true; //untuk ubah status avalability pada item jadi true
 					_context.Update(itemConsumable);
 					await _context.SaveChangesAsync();
-
-
+					
 					requestItemConsumable.Status = RequestItemConsumableStatus.Rejected;
 					_context.Update(requestItemConsumable);
+					await _context.SaveChangesAsync();
+					
+					itemConsumable.Quantity += requestItemConsumable.Quantity;
+					_context.Update(itemConsumable);
 					await _context.SaveChangesAsync();
 				}
 				catch (DbUpdateConcurrencyException)

@@ -3,24 +3,25 @@
 }
 <style>
   .card-style {
-  height: 60vh;
-  display: flex;
-}
+    height: 60vh;
+    display: flex;
+  }
 
-.single-notification {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .single-notification {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.single-notification {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  .single-notification {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 </style>
+
 <div class="container-fluid">
   <div class="title-wrapper pt-30">
     <div class="row">
@@ -30,7 +31,7 @@
             <i class="mdi mdi-file-send"></i>
           </div>
           <div class="content text-center">
-            <h6 class="mb-10">Total Request <br> Borrow </h6> 
+            <h6 class="mb-10">Total Request <br> Borrow </h6>
             <h3 class="text-bold">@ViewBag.TotalRequestsBorrow Request</h3>
           </div>
         </div>
@@ -77,18 +78,185 @@
       </div>
       <!-- End Col -->
     </div>
-    <div class="card-style">
+  </div>
+
+  @if (User.IsInRole("Admin"))
+  {
     <div class="single-notification">
-      <a href="#0" class="content">
-        <h1>Inventory Management System</h1><br>
+      <a class="content">
+        <h1>Inventory Management System</h1>
         <br>
-        <h2>Welcome to the Website of our Inventory Management System.</h2>
-        <h2>This application is expected to assist administrators in managing inventory within the company's premises
-        </h2>
-        <h2></h2>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="icon-card mb-30">
+              <div class="content text-center">
+                <h6 class="mb-3">Borrowed Item</h6>
+                <div class="table-wrapper table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          <h6>Item Name</h6>
+                        </th>
+                        <th>
+                          <h6>Borrowed Date</h6>
+                        </th>
+                        <th>
+                          <h6>Days Remaining</h6>
+                        </th>
+                        <th>
+                          <h6>Status</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in ViewBag.BorrowedItems)
+                      {
+                        <tr>
+                          <td>
+                            <p>@item.Item.Name</p>
+                          </td>
+
+                          <td>
+                            <p>@item.BorrowedDate</p>
+                          </td>
+
+                          <td>
+                            <p>@item.RemainingDays Day</p>
+                          </td>
+
+                          <td>
+                            <p class="status-btn success-btn">Borrowed</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="icon-card mb-30">
+              <div class="content text-center">
+                <h6 class="mb-3">Request Item</h6>
+                <div class="table-wrapper table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          <h6>Item Name</h6>
+                        </th>
+                        <th>
+                          <h6>Requst Date</h6>
+                        </th>
+                        <th>
+                          <h6>Request Due Date</h6>
+                        </th>
+                        <th>
+                          <h6>Status</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in ViewBag.RequestedItems)
+                      {
+                        <tr>
+                          <td>
+                            <p>@item.Item.Name</p>
+                          </td>
+
+                          <td>
+                            <p>@item.RequestBorrowDate</p>
+                          </td>
+
+                          <td>
+                            <p>@item.RequestDueDate</p>
+                          </td>
+
+                          <td>
+                            <p class="status-btn warning-btn">Waiting Approval</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="icon-card mb-30">
+              <div class="content text-center">
+                <h6 class="mb-3">Lost Item 
+                  @* <a asp-controller="BorrowedItems" asp-action="IndexLostItem"></a> *@
+                </h6>
+                <div class="table-wrapper table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>
+                          <h6>Item Name</h6>
+                        </th>
+                        <th>
+                          <h6>Borrowed Date</h6>
+                        </th>
+                        <th>
+                          <h6>Due Date</h6>
+                        </th>
+                        <th>
+                          <h6>Status</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in ViewBag.LostItems)
+                      {
+                        <tr>
+                          <td>
+                            <p>@item.Item.Name</p>
+                          </td>
+
+                          <td>
+                            <p>@item.BorrowedDate</p>
+                          </td>
+
+                          <td>
+                            <p>@item.DueDate</p>
+                          </td>
+
+                          <td>
+                            <p class="status-btn close-btn">Lost</p>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </a>
     </div>
-  </div>
-  </div>
-  </div>
-  
+  }
+
+  @if (User.IsInRole("Employee") || User.IsInRole("Vendor"))
+  {
+    <div class="card-style">
+      <div class="single-notification">
+        <a class="content">
+          <h1>Inventory Management System</h1><br>
+          <br>
+          <h2>Welcome to the Website of our Inventory Management System.</h2>
+          <h2>This application is expected to assist administrators in managing inventory within the company's
+            premises
+          </h2>
+          <h2></h2>
+        </a>
+      </div>
+    </div>
+  }
+</div>
