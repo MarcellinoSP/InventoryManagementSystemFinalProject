@@ -1,0 +1,151 @@
+@model IEnumerable<InventoryManagementSystem.Models.ConsumedItem>
+
+<style>
+    .status{
+        padding-left: 10px;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Active Consumed Items";
+    var SearchString = @Context.Request.Query["SearchString"];
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Item Orders</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Consumable Items
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="input-style-1 row">
+            <form asp-controller="ConsumableItems" asp-action="Index" method="get" class="d-flex gap-2 col-3">
+                <input type="text" name="SearchString" value="@SearchString" placeholder="Search..." />
+                <button class="main-btn search-btn primary-btn rounded-sm btn-hover">
+                    <i class="lni lni-search-alt px-3"></i>
+                </button>
+            </form>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-7"></div>
+                <div class="col-2">
+                    <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                        asp-controller="ConsumableItems" asp-action="ExportToCsv">
+                        <i class="mdi mdi-microsoft-excel fs-4"></i> Download CSV
+                    </a>
+                </div>
+            }
+           </div>
+    </div>
+
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <div class="table-wrapper table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <h6>Image</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Name</h6>
+                                    </th>
+                                    <th>
+                                        <h6>Item Code</h6>
+                                    </th>
+                                    @if(User.IsInRole("Admin"))
+                                    {
+                                        <th>
+                                            <h6>User Email</h6>
+                                        </th>
+                                    }
+                                    <th>
+                                        <h6>Pickup Date</h6>
+                                    </th>
+                                     <th>
+                                        <h6 class="status">Status</h6>
+                                    </th>
+                                </tr>
+                                <!-- end table row-->
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="width: 60px;">
+                                            <div class="lead">
+                                                <div class="lead-image">
+                                                    <img src="~/uploads/@item.ItemConsumable.PicturePath" alt="">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@item.ConsumedId">
+                                                <p class="text-primary">@Html.DisplayFor(modelItem => item.ItemConsumable!.Name)</p>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <p>@Html.DisplayFor(modelItem => item.ItemConsumable!.KodeItemConsumable) </p>
+                                        </td>
+                                        @if(User.IsInRole("Admin"))
+                                        {
+                                            <td>
+                                                <p>@Html.DisplayFor(modelItem => item.User!.Email)</p>
+                                            </td>
+                                        }
+
+                                        <td>
+                                            <p>@Html.DisplayFor(modelItem => item.CreateAt)</p>
+                                        </td>
+
+                                        <td class="pe-2 text_center" style="white-space: nowrap;">
+                                            @switch (item.Status)
+                                            {
+                                               case ConsumedItemStatus.Consumed:
+                                                <span class="status-btn ">Consumed</span>
+                                                break;
+                                            }
+                                        </td>
+                                        @if(User.IsInRole("Admin"))
+                                        {
+                                            <td style="width: 100px">
+                                                @if(item.Status == ConsumedItemStatus.Consumed)
+                                                {
+                                                    <div class="main-btn search-btn light-btn rounded-sm btn-hover">
+                                                        No Action
+                                                    </div>
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

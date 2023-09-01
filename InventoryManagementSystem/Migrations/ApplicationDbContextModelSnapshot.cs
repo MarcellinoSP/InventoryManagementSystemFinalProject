@@ -15,7 +15,7 @@ namespace InventoryManagementSystem.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
 
             modelBuilder.Entity("InventoryManagementSystem.Models.BorrowedItem", b =>
                 {
@@ -314,7 +314,7 @@ namespace InventoryManagementSystem.Migrations
                     b.Property<string>("PicturePath")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SubCategoryId")
@@ -536,7 +536,7 @@ namespace InventoryManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AcceptedQuantity")
+                    b.Property<int?>("AcceptedQuantity")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemConsumableId")
@@ -552,9 +552,6 @@ namespace InventoryManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SupplierId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ReStockID");
@@ -577,6 +574,7 @@ namespace InventoryManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NoteActionRequest")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NoteRequest")
@@ -621,6 +619,7 @@ namespace InventoryManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NoteActionRequest")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NoteRequest")

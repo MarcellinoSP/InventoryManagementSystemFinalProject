@@ -44,14 +44,6 @@ namespace InventoryManagementSystem.Controllers
                 .ToListAsync();
             return categories;
         }
-        // public async Task<IActionResult> Index()
-        // {
-        //       return _context.Categories != null ? 
-        //                   View(await _context.Categories.ToListAsync()) :
-        //                   Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
-        // }
-
-        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Categories == null)
