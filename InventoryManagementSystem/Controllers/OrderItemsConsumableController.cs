@@ -143,7 +143,6 @@ namespace InventoryManagementSystem.Controllers
 
 			if (requestItemConsumable != null)
 			{
-				Console.WriteLine($"Request ID: {orderItemConsumable.Quantity}");
 				_context.Add(orderItemConsumable);
 				await _context.SaveChangesAsync();
 

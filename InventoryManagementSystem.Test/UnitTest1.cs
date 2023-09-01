@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.VisualBasic;
 
 [TestFixture]
 public class Tests
@@ -100,5 +100,25 @@ public class Tests
 		
 		Assert.IsNotNull(result);
 		StringAssert.AreEqualIgnoringCase("supplier", result.Model.GetType().Name);
+	}
+	
+	[Test]
+	public async Task CategoriesPage_TestSearchIndex()
+	{
+		var controller = new CategoriesController(_fakeDbContext);
+		var result = await controller.Search("Tool");
+		
+		Assert.IsNotNull(result);
+		Assert.That(result, Is.InstanceOf<List<Category>>());
+	}
+	
+	[Test]
+	public async Task CategoriesPage_TestDetailsPage()
+	{
+		var controller = new CategoriesController(_fakeDbContext);
+		var result = await controller.Details(1);
+		
+		Assert.IsNotNull(result);
+		Assert.That(result, Is.InstanceOf<IActionResult>());
 	}
 }
