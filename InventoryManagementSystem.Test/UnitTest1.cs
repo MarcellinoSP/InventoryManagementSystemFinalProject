@@ -121,4 +121,20 @@ public class Tests
 		Assert.IsNotNull(result);
 		Assert.That(result, Is.InstanceOf<IActionResult>());
 	}
+	
+	[Test]
+	public async Task SubCategoriesControllers_TestSubCategoriesExists()
+	{
+		var controller = new SubCategoriesController(_fakeDbContext);
+		var result = await controller.Details(0) as NotFoundResult;
+		var resultFound = await controller.Details(1) as ViewResult;
+		
+		var model = resultFound.Model as SubCategory;
+		string modelResult = model.SubCategoryName;
+		string expectedModelResult = "Test";
+		
+		Assert.IsNotNull(result);
+		Assert.That(resultFound, Is.InstanceOf<IActionResult>());
+		Assert.AreEqual(expectedModelResult, modelResult);
+	}
 }
