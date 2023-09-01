@@ -8,8 +8,8 @@
 </style>
 
 @{
-    ViewData["Title"] = "Index";
-    var searchString=@Context.Request.Query["SearchString"];
+    ViewData["Title"] = "Borrowable Items";
+    var searchString = @Context.Request.Query["SearchString"];
 }
 
 <div class="container-fluid">
@@ -53,8 +53,9 @@
                         Item</a>
                 </div>
                 <div class="col-6">
-                    <form asp-controller="Items" asp-action="UploadCsv" enctype="multipart/form-data" method="post" class="d-flex gap-2 mt-4">
-                        <input type="file" name="file"/>
+                    <form asp-controller="Items" asp-action="UploadCsv" enctype="multipart/form-data" method="post"
+                        class="d-flex gap-2 mt-4">
+                        <input type="file" name="file" />
                         <button class="main-btn primary-btn rounded-sm btn-hover h-100 py-2">Upload CSV</button>
                     </form>
                 </div>
@@ -62,12 +63,16 @@
         </div>
     </div>
 
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">@TempData["Message"]</div>
+    }
     <div class="tables-wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card-style mb-30">
                     <div class="table-wrapper table-responsive">
-                        <table class="table">
+                        <table class="table" id="myTable">
                             <thead>
                                 <tr>
                                     <th>
@@ -163,7 +168,4 @@
     </div>
 </div>
 
-
-
-
-
+<script src="~/js/site.js"></script>

@@ -151,7 +151,8 @@
                                                     <span class="status-btn close-btn">Broken</span>
                                                     break;
                                                 default:
-                                                    <span class="status-btn primary-btn">Borrowed</span>
+                                                    <span class="status-btn primary-btn"
+                                                        id="status_@item.BorrowedId">@item.RemainingDays day</span>
                                                     break;
                                             }
                                         </td>
@@ -164,32 +165,33 @@
                                                         No Action
                                                     </div>
                                                 }
-                                                else if (item.Status == BorrowedItemStatus.DoneAndLost)
+                                                else if (item.Status == BorrowedItemStatus.DoneAndLost || item.Status ==
+                                                BorrowedItemStatus.DoneAndBroken)
                                                 {
                                                     <div class="action">
                                                         <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-controller="LostItems" asp-action="Index"
-                                                            asp-route-borrowedId="@item.BorrowedId">
+                                                            asp-action="Edit" asp-controller="BorrowedItems"
+                                                            asp-route-id="@item.BorrowedId">
                                                             <i class="mdi mdi-file-hidden fs-4"></i> See Details
                                                         </a>
                                                     </div>
                                                 }
-                                                else if (item.Status == BorrowedItemStatus.DoneAndBroken)
+                                                @* else if (item.Status == BorrowedItemStatus.DoneAndBroken)
+                                        {
+                                        <div class="action">
+                                        <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
+                                        asp-controller="BrokenItems" asp-action="Index"
+                                        asp-route-borrowedId="@item.BorrowedId">
+                                        <i class="mdi mdi-file-hidden fs-4"></i> See Details
+                                        </a>
+                                        </div>
+                                        } *@
+                                                else if (item.Status == BorrowedItemStatus.StillBorrowed)
                                                 {
                                                     <div class="action">
                                                         <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-controller="BrokenItems" asp-action="Index"
-                                                            asp-route-borrowedId="@item.BorrowedId">
-                                                            <i class="mdi mdi-file-hidden fs-4"></i> See Details
-                                                        </a>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div class="action">
-                                                        <a class="btn success-btn-outline rounded-md d-flex gap-1 align-items-center"
-                                                            asp-controller="GoodReceipts" asp-action="Create"
-                                                            asp-route-borrowedId="@item.BorrowedId">
+                                                            asp-controller="BorrowedItems" asp-action="Edit"
+                                                            asp-route-Id="@item.BorrowedId">
                                                             <i class="mdi mdi-package-down fs-4"></i> Returned
                                                         </a>
                                                     </div>
@@ -198,6 +200,17 @@
                                         }
                                     </tr>
                                 }
+                                @* <script>
+                                @foreach (var item in Model)
+                                {
+                                @if (item.Status == BorrowedItemStatus.StillBorrowed)
+                                {
+                                @Html.Display("let data =") @Html.DisplayFor(modelItem => item.DueDate)
+                                @Html.
+
+                                }
+                                }
+                                </script> *@
                             </tbody>
                         </table>
                     </div>
@@ -205,5 +218,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -41,7 +41,7 @@ namespace InventoryManagementSystem.Controllers
 
 			return View(allItemsConsumable);
 		}
-		
+
 		public async Task<List<ItemConsumable>> Search(string searchString)
 		{
 			var itemsConsumable = await _context.ItemsConsumable
@@ -57,28 +57,28 @@ namespace InventoryManagementSystem.Controllers
 			return itemsConsumable;
 		}
 
-		
+
 		//GET: ItemsConsumable/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
-			if(id == null || _context.ItemsConsumable == null)
+			if (id == null || _context.ItemsConsumable == null)
 			{
 				return NotFound();
 			}
-			
+
 			var itemConsumable = await _context.ItemsConsumable
 				.Include(i => i.Category)
 				.Include(i => i.SubCategory)
 				.Include(i => i.Supplier)
 				.FirstOrDefaultAsync(m => m.IdItemConsumable == id);
-			if(itemConsumable == null)
+			if (itemConsumable == null)
 			{
 				return NotFound();
 			}
-			
+
 			return View(itemConsumable);
 		}
-		
+
 		// GET: Items/Create
 		[Authorize(Roles = "Admin")]
 		public IActionResult Create()
@@ -97,11 +97,11 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName");
 			return View(itemConsumableViewModel);
 		}
-		
+
 		// POST: ItemsConsumable/Create
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "Admin")]
@@ -133,7 +133,7 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", itemConsumableViewModel.SupplierId);
 			return View(itemConsumableViewModel);
 		}
-		
+
 		private string GenerateItemCode(int categoryId, int subCategoryId)
 		{
 			var categoryCode = _context.Categories.FirstOrDefault(c => c.IdCategory == categoryId)?.CategoryCode;
@@ -155,13 +155,13 @@ namespace InventoryManagementSystem.Controllers
 			var itemCode = $"{categoryCode}-{subCategoryCode}-{lastIdValue}";
 			return itemCode;
 		}
-		
+
 		public IActionResult GetSubcategoriesByCategory(int categoryId)
 		{
 			var subcategories = _context.SubCategories.Where(s => s.CategoryId == categoryId).Select(s => new { value = s.IdSubCategory, text = s.SubCategoryName }).ToList();
 			return Json(subcategories);
 		}
-		
+
 		//method for processing the image upload to folder
 		private async Task<String?> UploadFile(ItemConsumableViewModel itemConsumableViewModel)
 		{
@@ -190,8 +190,8 @@ namespace InventoryManagementSystem.Controllers
 
 			return uniqueFileName;
 		}
-		
-		 // GET: ItemsConsumable/Edit/5
+
+		// GET: ItemsConsumable/Edit/5
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(int? id)
 		{
@@ -226,7 +226,7 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", itemConsumable.SupplierId);
 			return View(itemConsumableViewModel);
 		}
-		
+
 		// POST: ItemsConsumable/Edit/5
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -253,12 +253,11 @@ namespace InventoryManagementSystem.Controllers
 						PicturePath = !string.IsNullOrEmpty(uniqueFileName) ? uniqueFileName : itemConsumableViewModel.PicturePath,
 						Description = itemConsumableViewModel.Description,
 						CreateAt = itemConsumableViewModel.CreateAt,
-						Availability = itemConsumableViewModel.Availability,
+						Availability = (itemConsumableViewModel.Quantity > 0) ? true : false,
 						CategoryId = itemConsumableViewModel.CategoryId,
 						SubCategoryId = itemConsumableViewModel.SubCategoryId,
 						SupplierId = itemConsumableViewModel.SupplierId,
 						Quantity = itemConsumableViewModel.Quantity
-
 					};
 
 					_context.Update(newItemConsumable);
@@ -282,7 +281,7 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", itemConsumableViewModel.SupplierId);
 			return View(itemConsumableViewModel);
 		}
-		
+
 		// GET: Items/Delete/5
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete(int? id)
@@ -304,8 +303,8 @@ namespace InventoryManagementSystem.Controllers
 
 			return View(itemConsumable);
 		}
-		
-				// POST: Items/Delete/5
+
+		// POST: Items/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "Admin")]
@@ -324,7 +323,7 @@ namespace InventoryManagementSystem.Controllers
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}
-	
+
 		private bool ItemExists(int id)
 		{
 			return (_context.ItemsConsumable?.Any(e => e.IdItemConsumable == id)).GetValueOrDefault();

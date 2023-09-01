@@ -1,0 +1,63 @@
+@model InventoryManagementSystem.Models.ReStockItem
+
+@{
+    ViewData["Title"] = "New Order";
+}
+
+<div class="container-fluid">
+    <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="title mb-30">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="breadcrumb-wrapper mb-30">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Request Consumable Item</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                New Order
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-style mb-row 30">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ItemConsumableId" class="control-label">Item</label>
+                    <select asp-for="ItemConsumableId" class="form-control"
+                        asp-items="ViewBag.ItemConsumableId"></select>
+                    <span asp-validation-for="ItemConsumableId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-12 mt-10 d-flex gap-2">
+                        <input type="submit" value="Create" class="main-btn success-btn rounde-sm" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 mt-10 d-flex gap-2">
+            <a asp-action="Index" class="main-btn primary-btn rounde-sm btn-hover">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

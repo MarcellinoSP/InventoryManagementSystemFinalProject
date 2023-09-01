@@ -289,6 +289,7 @@ namespace InventoryManagementSystem.Controllers
                         throw;
                     }
                 }
+                TempData["Message"] = "data success updated";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "IdCategory", "CategoryName", itemViewModel.CategoryId);

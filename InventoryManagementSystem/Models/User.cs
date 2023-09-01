@@ -7,13 +7,16 @@ using Microsoft.AspNetCore.Identity;
 
 namespace InventoryManagementSystem.Models
 {
-    public class User : IdentityUser
-    {
-        [Required]
-        public string IdEmployee { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-    }
+	public class User : IdentityUser
+	{
+		[Required]
+		public string IdEmployee { get; set; }
+		[Required]
+		public string FirstName { get; set; }
+		[Required]
+		public string LastName { get; set; }
+		public int? HandleSupplierId {get; set;}
+		
+		// public string? PicturePath {get; set;}
+	}
 }

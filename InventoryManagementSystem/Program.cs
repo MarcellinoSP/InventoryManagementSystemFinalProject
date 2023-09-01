@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+	options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register repositories and UnitOfWork
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -32,42 +32,57 @@ builder.Services.AddDefaultIdentity<User>
 (options => options.SignIn.RequireConfirmedAccount = true)
 .AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    options.MinimumSameSitePolicy = SameSiteMode.Lax;
-});
-
 builder.Services.AddAuthentication()
-.AddCookie(options => 
+.AddCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 })
 .AddGoogle(options =>
 {
-    IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
-    options.ClientId = googleAuthNSection["ClientId"];
-    options.ClientSecret = googleAuthNSection["ClientSecret"];
-    // options.CallbackPath = "/signin-google";
-    options.CorrelationCookie.SameSite = SameSiteMode.None;
+	IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+	options.ClientId = googleAuthNSection["ClientId"];
+	options.ClientSecret = googleAuthNSection["ClientSecret"];
+	// options.CallbackPath = "/signin-google";
 });
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+//setting sesion on 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.Cookie.Name = ".AspNetCore.Identity.Application";
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+	options.ReturnUrlParameter = "/Home";
+	options.SlidingExpiration = true;
+}
+);
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(5);
+	options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 //untuk set awal data role dan akun admin agar nantinya bisa di pisahkan logic webnya
 SetRoleOnDatabase.CreateAdminEmployeeRole(app);
+//Membuat akun admin & vendor
 SetAdminOnDatabase.CreateAdminDataOnDatabase(app);
+SetVendorOnDatabase.CreateVendorDataOnDatabase(app);
 
-
+app.UseCookiePolicy(new CookiePolicyOptions()
+{
+	MinimumSameSitePolicy = SameSiteMode.Lax
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -78,9 +93,11 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+//session
+app.UseSession();
 
+app.MapControllerRoute(
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 app.Run();

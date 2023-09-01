@@ -25,7 +25,7 @@ namespace InventoryManagementSystem.Controllers
 			_context = context;
 			_userManager = userManager;
 		}
-		
+
 		// GET: OrderItems
 		public async Task<IActionResult> Index(string? SearchString)
 		{
@@ -47,7 +47,7 @@ namespace InventoryManagementSystem.Controllers
 			return View(allOrderItems);
 
 		}
-		
+
 		private async Task<List<OrderItemConsumable>> GetAllDataFromDatabase()
 		{
 			return await _context.OrderItemsConsumable
@@ -56,7 +56,7 @@ namespace InventoryManagementSystem.Controllers
 			.ToListAsync();
 			// show all rows in items table
 		}
-		
+
 		public async Task<List<OrderItemConsumable>> Search(string searchString)
 		{
 			var orderItem = await _context.OrderItemsConsumable
@@ -77,7 +77,7 @@ namespace InventoryManagementSystem.Controllers
 
 			return orderItem;
 		}
-		
+
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.OrderItemsConsumable == null)
@@ -96,8 +96,9 @@ namespace InventoryManagementSystem.Controllers
 
 			return View(orderItem);
 		}
-		
+
 		// GET: OrderItems/Create
+
 		public IActionResult Create(int requestConsumableId, RequestItemConsumableStatus status)
 		{
 			var requestItemConsumable = _context.RequestItemsConsumable
@@ -111,113 +112,94 @@ namespace InventoryManagementSystem.Controllers
 				return NotFound();
 			}
 
-
-			var orderItem = new OrderItemConsumable()
+			var orderItemConsumable = new OrderItemConsumable()
 			{
 				RequestItemConsumable = requestItemConsumable,
 				RequestId = requestItemConsumable.RequestConsumableId,
-				ItemConsumableId = requestItemConsumable.ItemConsumableId,
 				ItemConsumable = requestItemConsumable.ItemConsumable,
-				UserId = requestItemConsumable.UserId,
+				ItemConsumableId = requestItemConsumable.ItemConsumableId,
 				User = requestItemConsumable.User,
+				UserId = requestItemConsumable.UserId,
 				CreateAt = DateTime.Now,
-				ConsumeDateApproved = requestItemConsumable.RequestConsumeDate,
-				Quantity = requestItemConsumable.Quantity
+				Quantity = requestItemConsumable.Quantity,
+				ConsumeDateApproved = requestItemConsumable.RequestConsumeDate
 			};
-
-
-
 			ViewData["statusReqAction"] = status;
 
 			// ViewData["ItemId"] = new SelectList(_context.Items, "IdItem", "KodeItem");
 			// ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-			return View(orderItem);
-		}
-		
-		 // POST: OrderItems/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("OrderConsumableId,RequestConsumableId,ItemConsumableId,UserId,CreateAt,ConsumeDateApproved,NoteDonePickUp,NoteWaitingPickUp,Quantity,Status")] OrderItemConsumable orderItemConsumable)
-		{
-			if (ModelState.IsValid)
-			{
-				//kode untuk mencari data request item berdasarkan id yang ditentukan
-				var requestItemConsumable = _context.RequestItemsConsumable
-				.Include(c => c.ItemConsumable)
-				.Include(d => d.User)
-				.Where(d => d.RequestConsumableId == orderItemConsumable.RequestId).FirstOrDefault();
-
-				if (requestItemConsumable == null)
-				{
-					return NotFound();
-				}
-
-				_context.Add(orderItemConsumable); //untuk save order di database
-				await _context.SaveChangesAsync(); //untuk save order di database
-
-				//kode untuk ganti status di req item yang sudah di approved
-				requestItemConsumable.Status = RequestItemConsumableStatus.Approved;//ubah status jadi approved
-				requestItemConsumable.OrderItemConsumableId = orderItemConsumable.OrderConsumableId;//tambah data orderId di object
-				_context.Update(requestItemConsumable);//update entitas reqitem ke database
-				await _context.SaveChangesAsync();//pasangan dg atasnya. update entitas reqitem ke database
-
-				//Kurang Quantity di ItemConsumable
-				// var itemConsumable2 = await _context.ItemsConsumable.FindAsync(requestItemConsumable.ItemConsumableId);
-				// itemConsumable2.Quantity -= requestItemConsumable.Quantity;
-				// _context.Update(itemConsumable2);
-				// await _context.SaveChangesAsync();
-
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["ItemId"] = new SelectList(_context.ItemsConsumable, "IdItem", "KodeItem", orderItemConsumable.ItemConsumableId);
-			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", orderItemConsumable.UserId);
 			return View(orderItemConsumable);
 		}
-		
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("OrderConsumableId,RequestId,ItemConsumableId,UserId,CreateAt,ConsumeDateApproved,NoteDonePickUp,NoteWaitingPickUp,Quantity,Status")] OrderItemConsumable orderItemConsumable)
+		{
+			var requestItemConsumable = _context.RequestItemsConsumable
+										.Include(c => c.User)
+										.Include(c => c.ItemConsumable)
+										.Where(d => d.RequestConsumableId == orderItemConsumable.RequestId)
+										.FirstOrDefault();
+
+			if (requestItemConsumable != null)
+			{
+				_context.Add(orderItemConsumable);
+				await _context.SaveChangesAsync();
+
+				requestItemConsumable.Status = RequestItemConsumableStatus.Approved;
+				requestItemConsumable.OrderItemConsumableId = orderItemConsumable.OrderConsumableId;
+				_context.Update(requestItemConsumable);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+
+			ViewData["ItemId"] = new SelectList(_context.ItemsConsumable, "IdItem", "KodeItem", orderItemConsumable.ItemConsumableId);
+			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", orderItemConsumable.UserId);
+			return View(requestItemConsumable);
+		}
+
 		private bool OrderItemExists(int id)
 		{
 			return (_context.OrderItemsConsumable?.Any(e => e.OrderConsumableId == id)).GetValueOrDefault();
 		}
-		
-		  [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult ExportToCsv(string searchString)
-        {
-            var orderItems = _context.OrderItemsConsumable
-                .Include(r => r.ItemConsumable)
-                .Include(r => r.User)
-                .ToList();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                orderItems = orderItems
-                    .Where(r => r.ItemConsumable != null && r.ItemConsumable.Name.ToLower().Contains(searchString.ToLower()))
-                    .ToList();
-            }
+		[HttpGet]
+		[Authorize(Roles = "Admin")]
+		public IActionResult ExportToCsv(string searchString)
+		{
+			var orderItems = _context.OrderItemsConsumable
+				.Include(r => r.ItemConsumable)
+				.Include(r => r.User)
+				.ToList();
 
-            // Membuat StringWriter untuk menulis data CSV
-            using (var sw = new StringWriter())
-            {
-                using (var csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture))
-                {
-                    // Menulis header kolom
-                    csvWriter.WriteHeader<RequestItem>();
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				orderItems = orderItems
+					.Where(r => r.ItemConsumable != null && r.ItemConsumable.Name.ToLower().Contains(searchString.ToLower()))
+					.ToList();
+			}
 
-                    csvWriter.NextRecord();
+			// Membuat StringWriter untuk menulis data CSV
+			using (var sw = new StringWriter())
+			{
+				using (var csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture))
+				{
+					// Menulis header kolom
+					csvWriter.WriteHeader<RequestItem>();
 
-                    // Menulis data baris
-                    csvWriter.WriteRecords(orderItems);
-                }
+					csvWriter.NextRecord();
 
-                // Mengatur header respons HTTP untuk file CSV
-                Response.Headers.Add("Content-Disposition", "attachment; filename=request_Consumeditems.csv");
-                Response.ContentType = "text/csv";
+					// Menulis data baris
+					csvWriter.WriteRecords(orderItems);
+				}
 
-                // Menulis data CSV ke respons HTTP
-                return Content(sw.ToString());
-            }
+				// Mengatur header respons HTTP untuk file CSV
+				Response.Headers.Add("Content-Disposition", "attachment; filename=request_Consumeditems.csv");
+				Response.ContentType = "text/csv";
+
+				// Menulis data CSV ke respons HTTP
+				return Content(sw.ToString());
+			}
 		}
 	}
 }

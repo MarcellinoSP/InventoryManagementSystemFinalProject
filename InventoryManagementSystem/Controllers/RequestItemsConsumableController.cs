@@ -14,9 +14,10 @@ using System.Globalization;
 
 namespace InventoryManagementSystem.Controllers
 {
+	[Authorize]
 	public class RequestItemsConsumableController : Controller
 	{
-		 private readonly ApplicationDbContext _context;
+		private readonly ApplicationDbContext _context;
 
 		private readonly UserManager<User> _userManager;
 
@@ -79,7 +80,7 @@ namespace InventoryManagementSystem.Controllers
 			return requestItemConsumable;
 		}
 
-		  // GET: RequestItems/Details/5
+		// GET: RequestItems/Details/5
 		[Authorize(Roles = "Admin,Employee")]
 		public async Task<IActionResult> Details(int? id)
 		{
@@ -100,11 +101,11 @@ namespace InventoryManagementSystem.Controllers
 			return View(requestItemConsumable);
 		}
 
-		 // GET: RequestItemsConsumable/Create
+		// GET: RequestItemsConsumable/Create
 		[Authorize(Roles = "Employee")]
 		public IActionResult Create(int? itemConsumableId)
 		{
-		   
+
 			if (User.IsInRole("Admin"))
 			{
 				ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "KodeItemConsumable");
@@ -117,7 +118,7 @@ namespace InventoryManagementSystem.Controllers
 				if (itemConsumableId == null) return NotFound();
 				ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable
 				.Where(c => c.IdItemConsumable == itemConsumableId), "IdItemConsumable", "KodeItemConsumable");
-				Console.WriteLine(ViewData["ItemConsumableId"]);
+				// Console.WriteLine(ViewData["ItemConsumableId"]);
 				var itemConsumable = _context.ItemsConsumable.Where(c => c.IdItemConsumable == itemConsumableId).FirstOrDefault();
 				// var quantity = _context.ItemsConsumable;
 				//  ViewData["UserId"] = _userManager.GetUserId(User);
@@ -128,7 +129,6 @@ namespace InventoryManagementSystem.Controllers
 					ItemConsumableId = (int)itemConsumableId!,
 					UserId = _userManager.GetUserId(User)!,
 					RequestConsumeDate = DateTime.Now,
-	
 				};
 
 				return View(requestItemConsumable);
@@ -137,7 +137,7 @@ namespace InventoryManagementSystem.Controllers
 		}
 
 
-		 // POST: RequestItemsConsumable/Create
+		// POST: RequestItemsConsumable/Create
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[Authorize(Roles = "Employee")]
@@ -161,7 +161,7 @@ namespace InventoryManagementSystem.Controllers
 				//Kurang Quantity di ItemConsumable
 				// var itemConsumable2 = await _context.ItemsConsumable.FindAsync(requestItemConsumable.ItemConsumableId);
 
-				if(requestItemConsumable.Quantity > itemConsumable.Quantity)
+				if (requestItemConsumable.Quantity > itemConsumable.Quantity)
 				{
 					ModelState.AddModelError(string.Empty, "The quantity of demand exceeds what is available");
 					ViewData["ItemId"] = new SelectList(_context.ItemsConsumable, "IdItemconsumable", "KodeItemConsumable", requestItemConsumable.ItemConsumableId);
@@ -231,7 +231,7 @@ namespace InventoryManagementSystem.Controllers
 		// 	return View(requestItemConsumable);
 		// }
 
-		 // GET: RequestItems/Edit/5
+		// GET: RequestItems/Edit/5
 		[Authorize(Roles = "Employee")]
 		public async Task<IActionResult> Edit(int? id)
 		{
@@ -268,7 +268,6 @@ namespace InventoryManagementSystem.Controllers
 			ViewData["ItemConsumableId"] = new SelectList(_context.ItemsConsumable, "IdItemConsumable", "KodeItemConsumable", requestItemConsumable.ItemConsumableId);
 			ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", requestItemConsumable.UserId);
 			return View(requestItemConsumable);
-
 		}
 
 		[HttpPost]
@@ -281,18 +280,21 @@ namespace InventoryManagementSystem.Controllers
 			{
 				return NotFound();
 			}
-
-			if (ModelState.IsValid)
+			
+			if (itemConsumable != null)
 			{
 				try
 				{ //di dalam try karena default code generator ada di sini. baiknya, jika database tb tb disconnect, maka bisa nangkep error
 					itemConsumable.Availability = true; //untuk ubah status avalability pada item jadi true
 					_context.Update(itemConsumable);
 					await _context.SaveChangesAsync();
-
-
+					
 					requestItemConsumable.Status = RequestItemConsumableStatus.Rejected;
 					_context.Update(requestItemConsumable);
+					await _context.SaveChangesAsync();
+					
+					itemConsumable.Quantity += requestItemConsumable.Quantity;
+					_context.Update(itemConsumable);
 					await _context.SaveChangesAsync();
 				}
 				catch (DbUpdateConcurrencyException)
@@ -351,7 +353,7 @@ namespace InventoryManagementSystem.Controllers
 			return View(requestItemConsumable);
 		}
 
-		  // GET: RequestItems/Delete/5
+		// GET: RequestItems/Delete/5
 		[Authorize(Roles = "Employee")]
 		public async Task<IActionResult> Delete(int? id)
 		{

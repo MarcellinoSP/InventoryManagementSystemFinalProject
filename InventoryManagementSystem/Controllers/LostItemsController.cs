@@ -87,7 +87,7 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var lostItem = _context.LostItems.Include(c=>c.User).Where(d=>d.LostId==id).FirstOrDefault();
+            var lostItem = _context.LostItems.Include(c => c.User).Where(d => d.LostId == id).FirstOrDefault();
             if (lostItem == null)
             {
                 return NotFound();
@@ -114,17 +114,24 @@ namespace InventoryManagementSystem.Controllers
             {
                 try
                 {
-                    if(lostItem.Status == LostItemStatus.Resolve){
-                        var item = _context.Items.Where(c=> c.IdItem == lostItem.ItemId).FirstOrDefault();
-                        if(item == null){
-                            return NotFound();
-                        }
+                    var item = _context.Items.Where(c => c.IdItem == lostItem.ItemId).FirstOrDefault();
 
-                        item.Availability = true;
-                        _context.Update(item);
-                        await _context.SaveChangesAsync();
+                    if (item == null)
+                    {
+                        return NotFound();
                     }
-                    
+
+                    if (lostItem.Status == LostItemStatus.Resolve)
+                    {
+                        item.Availability = true;
+                    }
+
+                    if (lostItem.Status == LostItemStatus.Active)
+                    {
+                        item.Availability = false;
+                    }
+
+                    _context.Update(item);
                     _context.Update(lostItem);
                     await _context.SaveChangesAsync();
                 }
@@ -182,7 +189,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 _context.LostItems.Remove(lostItem);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -230,6 +237,6 @@ namespace InventoryManagementSystem.Controllers
                 return Content(sw.ToString());
             }
         }
-    
+
     }
 }

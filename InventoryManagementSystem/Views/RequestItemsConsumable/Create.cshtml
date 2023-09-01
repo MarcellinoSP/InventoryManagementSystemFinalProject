@@ -72,7 +72,7 @@
 
             <div class="input-style-1 mb-2 col-4">
                 <label asp-for="Quantity" class="control-label">Quantity</label>
-                <input asp-for="Quantity" class="form-control" id="requestQuantity" />
+                <input asp-for="Quantity" class="form-control" min="0" max="@Model.ItemConsumable.Quantity" id="requestQuantity" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
 
